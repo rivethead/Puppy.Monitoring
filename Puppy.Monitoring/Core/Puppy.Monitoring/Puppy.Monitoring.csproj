@@ -30,9 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\build\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Adapters\Default\IContainPipelines.cs" />
     <Compile Include="Adapters\Default\ManualPipelineAdapter.cs" />
     <Compile Include="Adapters\Default\TypeAgnosticPipelineContainer.cs" />
@@ -110,7 +112,6 @@
     <Compile Include="Adapters\IPipelineAdapter.cs" />
     <Compile Include="Publishing\IPublishEvents.cs" />
     <Compile Include="Publishing\NullPublisher.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builders\SuccessEventReportingBuilder.cs" />
     <Compile Include="Builders\TimeBasedEventReportingBuilder.cs" />
     <Compile Include="Publishing\Publisher.cs" />
@@ -120,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

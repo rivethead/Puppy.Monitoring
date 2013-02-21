@@ -1,7 +1,13 @@
+mode = :debug
+
 require 'albacore'
 require 'fileutils'
+require File.dirname(__FILE__) + "/build/versioning.rb"
 
-mode = :debug
+properties = {
+	:test_filter => "Puppy.Monitoring/**/bin/" + mode.to_s() + "/**/*.Tests.dll",
+}
+
 
 Albacore.configure do |config|
 	config.msbuild.targets = [:clean, :build]
@@ -10,75 +16,73 @@ Albacore.configure do |config|
 	config.xunit.command = "tools/xunit/xunit.console.clr4.exe"
 end
 
-def IsTestDirectory(fn)
-	File.directory?(fn) and 
-		fn.downcase.include?("puppy") and 
-		fn.downcase.include?("test") and 
-		!fn.downcase.include?("package")	
-end
 
-def IsBinaryDirectory(fn)
-	File.directory?(fn) and 
-		fn.downcase.include?("puppy") and 
-		!fn.downcase.include?("test") and 
-		!fn.downcase.include?("package")	
+namespace :version do
+	task :default => [:assembly_info] do
+
+	end
+
+	assemblyinfo :assembly_info => [:versioning] do |asm|
+		  asm.product_name = "Puppy.Monitoring"
+		  asm.description = "Puppy.Monitoring"
+		  asm.version = ASSEMBLY_VERSION
+		  asm.file_version = FORMAL_VERSION
+		  asm.custom_attributes :AssemblyInformationalVersion => "#{BUILD_VERSION}",
+			:ComVisibleAttribute => false,
+			:CLSCompliantAttribute => false
+		  asm.output_file = 'build/AssemblyInfo.cs'
+		  asm.namespaces "System", "System.Reflection", "System.Runtime.InteropServices", "System.Security"
+	end
 end
 
 namespace :build do
-	msbuild :build => ['environment:pre_build'] do |msb|
+	msbuild :build => ['version:default'] do |msb|
 		msb.properties = { :configuration => mode }
-	  	msb.solution = "Puppy.Monitoring/Puppy.Monitoring.sln"
+		msb.solution = "Puppy.Monitoring/Puppy.Monitoring.sln"
 	end
 end
 
-namespace :environment do
-	task :pre_build => [:create_environment] do
+def add_files stage, what_dlls, nuspec
+  [['net35', 'net-3.5'], ['net40', 'net-4.0']].each{|fw|
+    takeFrom = File.join(stage, fw[1], what_dlls)
+    Dir.glob(takeFrom).each do |f|
+      nuspec.file(f.gsub("/", "\\"), "lib\\#{fw[0]}")
+    end
+  }
+end
+
+namespace :nuget do
+	task :specs => ['version:default', 'puppy'] do
 	end
 
-	task :post_build => [:copy_test_assemblies, :copy_assemblies] do end
+	nuspec :puppy do
+		nuspec.id = 'Puppy.Monitoring'
+		nuspec.version = NUGET_VERSION
+		nuspec.authors = 'rivethead_'
+		nuspec.description = 'Puppy.Monitoring'
+		nuspec.projectUrl = 'https://github.com/rivethead/Puppy.Monitoring'
+		nuspec.language = "en-ZA"
+		nuspec.licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0"
+		nuspec.requireLicenseAcceptance = "false"
 
-	task :create_environment do
-		FileUtils.rm_rf 'build/tests' if File.exists?('build/tests')
-		FileUtils.rm_rf 'build/binaries' if File.exists?('build/binaries')
-		FileUtils.mkdir_p 'build/tests'
-		FileUtils.mkdir_p 'build/binaries'
-	end
+		nuspec.file 'Puppy.Monitoring/Core/Puppy.Monitoring/bin/' + mode.to_s() + 'Puppy.Monitoring.dll', 'lib\net45'	
+		nuspec.file 'Puppy.Monitoring/Core/Puppy.Monitoring/bin/' + mode.to_s() + 'Puppy.Monitoring.pdb', 'lib\net45'	
+		nuspec.file 'Puppy.Monitoring/Core/Puppy.Monitoring/bin/' + mode.to_s() + '**/*.cs', 'src'	
 
-	task :copy_test_assemblies do
-		directories = Dir.glob("*/*").select { |fn| IsTestDirectory(fn) }
-
-		directories.each do |directory| 
-			assembly_path = File.join(Dir.pwd, directory, "bin", mode.to_s(), "**/**")
-
-			target_path = 'build/tests'
-			FileUtils.mkdir_p(target_path)
-			FileUtils.cp_r(File.join(Dir.pwd, directory, "bin", mode.to_s()), target_path)
-		end
-	end
-
-	task :copy_assemblies do
-		directories = Dir.glob("*/*").select { |fn| IsBinaryDirectory(fn) }
-
-		directories.each do |directory| 
-			assembly_path = File.join(Dir.pwd, directory, "bin", mode.to_s(), "**/**")
-			target_path = 'build/binaries/' + directory
-			FileUtils.mkdir_p(target_path)
-			FileUtils.cp_r(File.join(Dir.pwd, directory, "bin", mode.to_s()), target_path)
-		end
+		nuspec.dependency "Common.Logging", "[2.1.1]"
+		nuspec.output_file = "build/nuspecs/MassTransit.nuspec"
 	end
 
 end
 
 namespace :testing do
-	task :unit_tests => ['environment:post_build'] do
-		Dir.glob('build/tests/**/*test*.dll').each do |test_assembly|
-			print File.join(Dir.pwd, test_assembly) + "\n"
+	task :unit_tests do
+		Dir.glob(properties[:test_filter]).each do |test_assembly|
 			xunit = XUnitTestRunner.new
 			xunit.assembly = File.join(Dir.pwd, test_assembly)
 			xunit.execute
 		end
 	end
-
 end
 
 task :switch_to_release do
@@ -98,4 +102,4 @@ desc "Run release build"
 task :release => [:switch_to_release, :default] do end
 
 desc "Release build with nuget packaging"
-task :pack => [:release] do end
+task :pack => ['nuget:specs'] do end
