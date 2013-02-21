@@ -35,6 +35,12 @@ namespace :version do
 	end
 end
 
+task :installNuGetPackages do
+  FileList["**/packages.config"].each { |filepath|
+    sh "NuGet.exe i #{filepath} -o Solution/packages"
+  }
+end
+
 namespace :build do
 	msbuild :build => ['version:default'] do |msb|
 		msb.properties = { :configuration => mode }
