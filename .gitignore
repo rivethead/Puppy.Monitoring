@@ -34,18 +34,14 @@ x64/
 *.vspscc
 *.vssscc
 .builds
-[Bb]uil/nuget/**
-[Bbuild]/artifacts/**
 
 # Visual Studio profiler
 *.psess
 *.vsp
 *.vspx
 
-# ReSharper is a .NET coding add-in
 _ReSharper*
 
-# Publish Web Output
 *.Publish.xml
 
 #self generated nuget specs
@@ -54,7 +50,6 @@ _ReSharper*
 # Others
 [Bb]in
 [Oo]bj
-!umbraco/bin
 sql
 TestResults
 [Tt]est[Rr]esult*
@@ -63,10 +58,7 @@ ClientBin
 [Ss]tyle[Cc]op.*
 ~$*
 *.dbmdl
-logs/**
-app/packages/**
-
-Generated_Code #added for RIA/Silverlight projects
+**/packages/**
 
 # Backup & report files from converting an old project file to a newer
 # Visual Studio version. Backup files are not needed, because we have git ;-)
