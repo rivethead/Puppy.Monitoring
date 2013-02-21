@@ -1,0 +1,29 @@
+require 'albacore'
+
+connection_string = 'data source=.;Trusted_Connection=true;Initial Catalog=Puppy.Monitoring'
+
+desc "Migrate Puppy.Monitoring database"
+fluentmigrator :migrate do |migrator|
+	migrator.command = '../packages/FluentMigrator.Tools.1.0.6.0/tools/AnyCPU/40/Migrate.exe'
+	migrator.provider = 'sqlserver2008'
+	migrator.target = 'bin/Debug/Puppy.Monitoring.SqlServerPublisher.dll'
+	migrator.connection = connection_string
+end
+
+desc "rollback 1 version"
+fluentmigrator :rollback do |migrator|
+	migrator.command = '../packages/FluentMigrator.Tools.1.0.6.0/tools/AnyCPU/40/Migrate.exe'
+	migrator.provider = 'sqlserver2008'
+	migrator.target = 'bin/Debug/Puppy.Monitoring.SqlServerPublisher.dll'
+	migrator.connection = connection_string
+	migrator.task = 'rollback'
+end
+
+desc "rollback to version 0"
+fluentmigrator :rollback_all do |migrator|
+	migrator.command = '../packages/FluentMigrator.Tools.1.0.6.0/tools/AnyCPU/40/Migrate.exe'
+	migrator.provider = 'sqlserver2008'
+	migrator.target = 'bin/Debug/Puppy.Monitoring.SqlServerPublisher.dll'
+	migrator.connection = connection_string
+	migrator.task = 'rollback:all'
+end

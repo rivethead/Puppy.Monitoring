@@ -1,0 +1,101 @@
+require 'albacore'
+require 'fileutils'
+
+mode = :debug
+
+Albacore.configure do |config|
+	config.msbuild.targets = [:clean, :build]
+	config.msbuild.verbosity = "minimal"
+
+	config.xunit.command = "tools/xunit/xunit.console.clr4.exe"
+end
+
+def IsTestDirectory(fn)
+	File.directory?(fn) and 
+		fn.downcase.include?("puppy") and 
+		fn.downcase.include?("test") and 
+		!fn.downcase.include?("package")	
+end
+
+def IsBinaryDirectory(fn)
+	File.directory?(fn) and 
+		fn.downcase.include?("puppy") and 
+		!fn.downcase.include?("test") and 
+		!fn.downcase.include?("package")	
+end
+
+namespace :build do
+	msbuild :build => ['environment:pre_build'] do |msb|
+		msb.properties = { :configuration => mode }
+	  	msb.solution = "Puppy.Monitoring/Puppy.Monitoring.sln"
+	end
+end
+
+namespace :environment do
+	task :pre_build => [:create_environment] do
+	end
+
+	task :post_build => [:copy_test_assemblies, :copy_assemblies] do end
+
+	task :create_environment do
+		FileUtils.rm_rf 'build/tests' if File.exists?('build/tests')
+		FileUtils.rm_rf 'build/binaries' if File.exists?('build/binaries')
+		FileUtils.mkdir_p 'build/tests'
+		FileUtils.mkdir_p 'build/binaries'
+	end
+
+	task :copy_test_assemblies do
+		directories = Dir.glob("*/*").select { |fn| IsTestDirectory(fn) }
+
+		directories.each do |directory| 
+			assembly_path = File.join(Dir.pwd, directory, "bin", mode.to_s(), "**/**")
+
+			target_path = 'build/tests'
+			FileUtils.mkdir_p(target_path)
+			FileUtils.cp_r(File.join(Dir.pwd, directory, "bin", mode.to_s()), target_path)
+		end
+	end
+
+	task :copy_assemblies do
+		directories = Dir.glob("*/*").select { |fn| IsBinaryDirectory(fn) }
+
+		directories.each do |directory| 
+			assembly_path = File.join(Dir.pwd, directory, "bin", mode.to_s(), "**/**")
+			target_path = 'build/binaries/' + directory
+			FileUtils.mkdir_p(target_path)
+			FileUtils.cp_r(File.join(Dir.pwd, directory, "bin", mode.to_s()), target_path)
+		end
+	end
+
+end
+
+namespace :testing do
+	task :unit_tests => ['environment:post_build'] do
+		Dir.glob('build/tests/**/*test*.dll').each do |test_assembly|
+			print File.join(Dir.pwd, test_assembly) + "\n"
+			xunit = XUnitTestRunner.new
+			xunit.assembly = File.join(Dir.pwd, test_assembly)
+			xunit.execute
+		end
+	end
+
+end
+
+task :switch_to_release do
+	mode = :Release
+end
+
+task :default => [
+	'build:build', 
+	'testing:unit_tests'
+	] do
+end		
+
+desc "Run debug build"	
+task :debug => [:default] do end
+
+desc "Run release build" 	
+task :release => [:switch_to_release, :default] do end
+
+desc "Release build with nuget packaging"
+task :pack => [:release] do end
