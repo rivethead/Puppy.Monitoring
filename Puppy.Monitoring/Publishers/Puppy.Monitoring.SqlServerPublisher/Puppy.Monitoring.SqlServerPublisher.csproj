@@ -57,7 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="rakefile" />
+    <None Include="rakefile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Puppy.Monitoring\Puppy.Monitoring.csproj">
