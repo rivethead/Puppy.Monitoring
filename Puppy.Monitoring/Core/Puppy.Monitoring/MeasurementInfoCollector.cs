@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Puppy.Monitoring
 {
     public class MeasurementInfoCollector
     {
         private readonly Action actionToMeasure = () => { };
-        private Func<ReportInfoCollector> failure;
-        private Func<ReportInfoCollector> success;
+        private readonly List<Func<ReportInfoCollector>> failures = new List<Func<ReportInfoCollector>>();
+        private readonly List<Func<ReportInfoCollector>> successes = new List<Func<ReportInfoCollector>>();
 
         public MeasurementInfoCollector(Action actionToMeasure)
         {
@@ -16,13 +18,13 @@ namespace Puppy.Monitoring
 
         public MeasurementInfoCollector OnFailure(Func<ReportInfoCollector> failure)
         {
-            this.failure = failure;
+            this.failures.Add(failure);
             return this;
         }
 
         public MeasurementInfoCollector OnSuccess(Func<ReportInfoCollector> success)
         {
-            this.success = success;
+            this.successes.Add(success);
             return this;
         }
 
@@ -37,24 +39,27 @@ namespace Puppy.Monitoring
 
                 stopwatch.Stop();
 
-                Execute(success, stopwatch);
+                Execute(successes, stopwatch);
             }
             catch
             {
                 stopwatch.Stop();
-                Execute(failure, stopwatch);
+                Execute(failures, stopwatch);
                 throw;
             }
         }
 
-        private void Execute(Func<ReportInfoCollector> report, Stopwatch stopwatch)
+        private void Execute(List<Func<ReportInfoCollector>> reporters, Stopwatch stopwatch)
         {
-            if (report == null)
+            if (!reporters.Any())
                 return;
 
-            report()
-                .ItTook(stopwatch.ElapsedMilliseconds)
-                .Publish();
+            foreach (var reporter in reporters)
+            {
+                reporter()
+                    .ItTook(stopwatch.ElapsedMilliseconds)
+                    .Publish();
+            }
         }
     }
 }
