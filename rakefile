@@ -3,9 +3,12 @@ mode = :debug
 require 'albacore'
 require 'fileutils'
 require File.dirname(__FILE__) + "/build/versioning.rb"
+require File.dirname(__FILE__) + "/build/nugets.rb"
 
 properties = {
 	:test_filter => "Puppy.Monitoring/**/bin/" + mode.to_s() + "/**/*.Tests.dll",
+	:nuget_folder => "build/nuget",
+	:nuget_executable => "build/tools/nuget/nuget.exe"
 }
 
 
@@ -13,7 +16,7 @@ Albacore.configure do |config|
 	config.msbuild.targets = [:clean, :build]
 	config.msbuild.verbosity = "minimal"
 
-	config.xunit.command = "tools/xunit/xunit.console.clr4.exe"
+	config.xunit.command = "build/tools/xunit/xunit.console.clr4.exe"
 end
 
 
@@ -28,7 +31,7 @@ namespace :version do
 		  asm.version = ASSEMBLY_VERSION
 		  asm.file_version = FORMAL_VERSION
 		  asm.custom_attributes :AssemblyInformationalVersion => "#{BUILD_VERSION}",
-			:ComVisibleAttribute => false,
+				:ComVisibleAttribute => false,
 			:CLSCompliantAttribute => false
 		  asm.output_file = 'build/AssemblyInfo.cs'
 		  asm.namespaces "System", "System.Reflection", "System.Runtime.InteropServices", "System.Security"
@@ -48,37 +51,55 @@ namespace :build do
 	end
 end
 
-def add_files stage, what_dlls, nuspec
-  [['net35', 'net-3.5'], ['net40', 'net-4.0']].each{|fw|
-    takeFrom = File.join(stage, fw[1], what_dlls)
-    Dir.glob(takeFrom).each do |f|
-      nuspec.file(f.gsub("/", "\\"), "lib\\#{fw[0]}")
-    end
-  }
-end
 
 namespace :nuget do
-	task :specs => ['version:default', 'puppy'] do
+	task :default => ['version:default', :specs, :pack] do
 	end
 
-	nuspec :puppy do
-		nuspec.id = 'Puppy.Monitoring'
-		nuspec.version = NUGET_VERSION
-		nuspec.authors = 'rivethead_'
-		nuspec.description = 'Puppy.Monitoring'
-		nuspec.projectUrl = 'https://github.com/rivethead/Puppy.Monitoring'
-		nuspec.language = "en-ZA"
-		nuspec.licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0"
-		nuspec.requireLicenseAcceptance = "false"
+	task :pack do
 
-		nuspec.file 'Puppy.Monitoring/Core/Puppy.Monitoring/bin/' + mode.to_s() + 'Puppy.Monitoring.dll', 'lib\net45'	
-		nuspec.file 'Puppy.Monitoring/Core/Puppy.Monitoring/bin/' + mode.to_s() + 'Puppy.Monitoring.pdb', 'lib\net45'	
-		nuspec.file 'Puppy.Monitoring/Core/Puppy.Monitoring/bin/' + mode.to_s() + '**/*.cs', 'src'	
+		@nugets.each do |nuget|
+			spec_file = File.join(Dir.pwd, properties[:nuget_folder], "#{nuget[:package_id]}.#{NUGET_VERSION}.nuspec")
+			output_directory = File.join(Dir.pwd, properties[:nuget_folder])
+			base_path = File.join(Dir.pwd, nuget[:base_folder], "bin", mode.to_s)
+			nuget_parameters = "pack #{spec_file} -OutputDirectory #{output_directory} -BasePath #{base_path} -Version #{NUGET_VERSION} -Properties Configuration=Release"
 
-		nuspec.dependency "Common.Logging", "[2.1.1]"
-		nuspec.output_file = "build/nuspecs/MassTransit.nuspec"
+			cmd = Exec.new
+			cmd.command = properties[:nuget_executable]
+			cmd.parameters = nuget_parameters
+			cmd.execute
+		end
 	end
 
+	task :specs do
+		FileUtils.rm_rf properties[:nuget_folder] if File.exists?(properties[:nuget_folder])
+		FileUtils.mkdir_p properties[:nuget_folder]
+
+		@nugets.each do |nuget|
+			nuspec = Nuspec.new
+			nuspec.id = nuget[:package_id]
+			nuspec.version = NUGET_VERSION
+			nuspec.authors = nuget[:authors]
+			nuspec.description = nuget[:description]
+			nuspec.projectUrl = 'https://github.com/rivethead/Puppy.Monitoring'
+			nuspec.language = "en-ZA"
+			nuspec.licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0"
+			nuspec.requireLicenseAcceptance = "false"
+
+			spec_file = File.join(Dir.pwd, properties[:nuget_folder], "#{nuget[:package_id]}.#{NUGET_VERSION}.nuspec")
+			nuspec.output_file = spec_file
+
+			nuget[:files].each do |f|
+				nuspec.file f[0], f[1]
+			end
+
+			nuget[:dependencies].each do |d|
+				nuspec.dependency d[0], d[1]
+			end
+
+			nuspec.execute
+		end
+	end
 end
 
 namespace :testing do
@@ -108,4 +129,4 @@ desc "Run release build"
 task :release => [:switch_to_release, :default] do end
 
 desc "Release build with nuget packaging"
-task :pack => ['nuget:specs'] do end
+task :pack => ['nuget:default'] do end
