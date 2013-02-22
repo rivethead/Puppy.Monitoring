@@ -14,7 +14,7 @@ namespace Puppy.Monitoring.Builders
         public IEvent Build()
         {
             return info.Success
-                       ? (IEvent) new SuccessEvent(new Categorisation(info.Category, info.SubCategory),
+                       ? (IEvent) new SuccessEvent(new Categorisation(info.Category, info.SubCategory, info.Segment),
                                                    new Timings(info.Milliseconds))
                        : new FailureEvent(new Categorisation(info.Category, info.SubCategory),
                                           new Timings(info.Milliseconds));

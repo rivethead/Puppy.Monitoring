@@ -22,6 +22,7 @@ namespace Puppy.Monitoring.SqlServerPublisher.Migrations
                 .WithColumn("Timestamp").AsInt32().NotNullable()
                 .WithColumn("Category").AsString().NotNullable()
                 .WithColumn("SubCategory").AsString().Nullable()
+                .WithColumn("Segment").AsString().Nullable()
                 .WithColumn("TookMilliseconds").AsInt32().Nullable()
                 .WithColumn("EventType").AsString().Nullable();
         }

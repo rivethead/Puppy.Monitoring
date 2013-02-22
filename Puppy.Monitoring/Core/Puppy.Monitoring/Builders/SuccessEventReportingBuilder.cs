@@ -17,7 +17,7 @@ namespace Puppy.Monitoring.Builders
         {
             return subBuilder != null
                        ? subBuilder.Build()
-                       : new SuccessEvent(new Categorisation(info.Category, info.SubCategory));
+                       : new SuccessEvent(new Categorisation(info.Category, info.SubCategory, info.Segment));
         }
     }
 }

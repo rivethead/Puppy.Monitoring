@@ -21,13 +21,13 @@ namespace Puppy.Monitoring.SqlServerPublisher
                         (
                             id, 
                                 PublishedOn, Year, Month, Day, Hour, Minute, Second, Timestamp, 
-                                Category, SubCategory, 
+                                Category, SubCategory, Segment,
                                 TookMilliseconds, EventType
                         )
                         VALUES(
                             @id, 
                                 @publishedOn, @year, @month, @day, @hour, @minute, @second, @timestamp,
-                                @category, @subCategory,
+                                @category, @subCategory, @segment,
                                 @milliseconds, @eventType
                 )";
 
@@ -46,6 +46,7 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             timestamp = @event.EventAudit.Buckets.UnixTimestamp,
                             category = @event.Categorisation.Category,
                             subCategory  = @event.Categorisation.SubCategory,
+                            segment = @event.Categorisation.Segmentation,
                             milliseconds = @event.Timings.Took, 
                             eventType = @event.GetType().Name
                         }

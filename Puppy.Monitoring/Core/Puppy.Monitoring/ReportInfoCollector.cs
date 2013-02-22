@@ -23,6 +23,7 @@ namespace Puppy.Monitoring
         internal bool IsTimeTracking { get; set; }
         internal long Milliseconds { get; set; }
         internal IBuildReportingEvent eventBuilder;
+        internal string Segment { get; private set; }
 
         public ReportInfoCollector InCategory(string category)
         {
@@ -38,6 +39,12 @@ namespace Puppy.Monitoring
         public ReportInfoCollector InSubCategory(string subCategory)
         {
             SubCategory = subCategory;
+            return this;
+        }
+
+        public ReportInfoCollector SegmentedAs(string segment)
+        {
+            this.Segment = segment;
             return this;
         }
 
