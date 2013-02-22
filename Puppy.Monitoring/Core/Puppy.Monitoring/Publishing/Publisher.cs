@@ -1,13 +1,14 @@
 ﻿using System;
 using Common.Logging;
 using Puppy.Monitoring.Adapters;
+using Puppy.Monitoring.Adapters.Default;
 using Puppy.Monitoring.Events;
 
 namespace Puppy.Monitoring.Publishing
 {
     public class Publisher
     {
-        private static IPipelineAdapter pipelineAdapter;
+        private static IPipelineAdapter pipelineAdapter = new NullPipelineAdapter();
 
         private static readonly ILog log = LogManager.GetLogger<Publisher>();
 

@@ -47,6 +47,7 @@
     </Compile>
     <Compile Include="Adapters\Default\IContainPipelines.cs" />
     <Compile Include="Adapters\Default\ManualPipelineAdapter.cs" />
+    <Compile Include="Adapters\Default\NullPipelineAdapter.cs" />
     <Compile Include="Adapters\Default\TypeAgnosticPipelineContainer.cs" />
     <Compile Include="Adapters\Default\TypeSpecificPipelineContainer.cs" />
     <Compile Include="Builders\IBuildReportingEvent.cs" />
