@@ -38,19 +38,23 @@ namespace :version do
 	end
 end
 
-task :installNuGetPackages do
-  FileList["**/packages.config"].each { |filepath|
-    sh "NuGet.exe i #{filepath} -o Solution/packages"
-  }
-end
 
 namespace :build do
 	msbuild :build => ['version:default'] do |msb|
 		msb.properties = { :configuration => mode }
 		msb.solution = "Puppy.Monitoring/Puppy.Monitoring.sln"
 	end
+
 end
 
+namespace :environment do
+	task :install_nuget_package do
+	  FileList["**/packages.config"].each { |file_path|
+	  	puts "Installing missing nuget packages based on #{file_path}"
+		sh "#{properties[:nuget_executable]} i #{file_path} -o Puppy.Monitoring/packages"
+	  }
+	end
+end
 
 namespace :nuget do
 	task :default => ['version:default', :specs, :pack] do
@@ -117,6 +121,7 @@ task :switch_to_release do
 end
 
 task :default => [
+	'environment:install_nuget_package',
 	'build:build', 
 	'testing:unit_tests'
 	] do
@@ -129,4 +134,4 @@ desc "Run release build"
 task :release => [:switch_to_release, :default] do end
 
 desc "Release build with nuget packaging"
-task :pack => ['nuget:default'] do end
+task :pack => [:release, 'nuget:default'] do end

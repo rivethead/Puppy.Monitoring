@@ -70,6 +70,8 @@
     <Compile Include="Events\Timings.cs" />
     <Compile Include="Events\ListOfEvents.cs" />
     <Compile Include="Measure.cs" />
+    <Compile Include="MeasurementInfoCollector.cs" />
+    <Compile Include="MeasurementInfoCollectorWithReturn.cs" />
     <Compile Include="Pipeline\BasePipeline.cs" />
     <Compile Include="Pipeline\CompleteAndReflowPipeline.cs" />
     <Compile Include="Pipeline\Pipelets\Actions\ITriggerActionBasedOnEvent.cs" />
