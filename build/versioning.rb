@@ -14,28 +14,20 @@ def commit_data
 end
 
 task :versioning do
-	print '1'
 	ver = SemVer.find
-	print '2'
 	revision = (ENV['BUILD_NUMBER'] || ver.patch).to_i
-	print '3'
 	var = SemVer.new(ver.major, ver.minor, revision, ver.special)
-	print '4'
 	
 	# extensible number w/ git hash
 	ENV['BUILD_VERSION'] = BUILD_VERSION = ver.format("%M.%m.%p%s") + ".#{commit_data()[0]}"
-	print '5'
 	
 	# nuget (not full semver 2.0.0-rc.1 support) see http://nuget.codeplex.com/workitem/1796
 	ENV['NUGET_VERSION'] = NUGET_VERSION = ver.format("%M.%m.%p%s")
-	print '6'
 
 	# so we do not break the strong name as often, assembly version is held to last major/minor version  
 	ENV['ASSEMBLY_VERSION'] = ASSEMBLY_VERSION = "#{ SemVer.new(ver.major, ver.minor, 0).format "%M.%m.%p"}"
-	print '7'
 
 	# purely M.m.p format
 	ENV['FORMAL_VERSION'] = FORMAL_VERSION = "#{ SemVer.new(ver.major, ver.minor, revision).format "%M.%m.%p"}"
-	print '8'
 	puts "##teamcity[buildNumber '#{BUILD_VERSION}']" # tell teamcity our decision
 end

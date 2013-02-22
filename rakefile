@@ -2,6 +2,7 @@ mode = :debug
 
 require 'albacore'
 require 'fileutils'
+require 'semver'
 require File.dirname(__FILE__) + "/build/versioning.rb"
 require File.dirname(__FILE__) + "/build/nugets.rb"
 
@@ -48,11 +49,17 @@ namespace :build do
 end
 
 namespace :environment do
-	task :install_nuget_package do
+	task :install_nuget_packages do
 	  FileList["**/packages.config"].each { |file_path|
 	  	puts "Installing missing nuget packages based on #{file_path}"
 		sh "#{properties[:nuget_executable]} i #{file_path} -o Puppy.Monitoring/packages"
 	  }
+	end
+
+	task :bump_version do
+		v = SemVer.find
+		v.patch += 1
+		v.save
 	end
 end
 
@@ -121,7 +128,7 @@ task :switch_to_release do
 end
 
 task :default => [
-	'environment:install_nuget_package',
+	'environment:install_nuget_packages',
 	'build:build', 
 	'testing:unit_tests'
 	] do
@@ -134,4 +141,4 @@ desc "Run release build"
 task :release => [:switch_to_release, :default] do end
 
 desc "Release build with nuget packaging"
-task :pack => [:release, 'nuget:default'] do end
+task :pack => ['environment:bump_version', :release, 'nuget:default'] do end
