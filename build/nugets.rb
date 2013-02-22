@@ -20,11 +20,12 @@
 		:files => [
 			['Puppy.Monitoring.SqlServerPublisher.dll', 'lib\net45'],
 			['Puppy.Monitoring.SqlServerPublisher.pdb', 'lib\net45'],
-			['rakefile.rb', 'tools'],
+			['install_publisher.ps1', 'tools'],
+			['migrations/tools/**/*.*', 'tools']
 		],
 		:dependencies => [
 			['Common.Logging', '[2.1.1]'],
-			['Puppy.Monitoring', ''],
+			['Puppy.Monitoring', '']
 		]
 	}	
 ]
