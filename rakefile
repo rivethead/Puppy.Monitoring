@@ -127,18 +127,18 @@ task :switch_to_release do
 	mode = :Release
 end
 
+desc "Only builds"
 task :default => [
 	'environment:install_nuget_packages',
-	'build:build', 
-	'testing:unit_tests'
+	'build:build' 
 	] do
 end		
 
 desc "Run debug build"	
-task :debug => [:default] do end
+task :debug => [:default, 'testing:unit_tests'] do end
 
 desc "Run release build" 	
-task :release => [:switch_to_release, :default] do end
+task :release => [:switch_to_release, :default, 'testing:unit_tests'] do end
 
 desc "Release build with nuget packaging"
 task :pack => ['environment:bump_version', :release, 'nuget:default'] do end
