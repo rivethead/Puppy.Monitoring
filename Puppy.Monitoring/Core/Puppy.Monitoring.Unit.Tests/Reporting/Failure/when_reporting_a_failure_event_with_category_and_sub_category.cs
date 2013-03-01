@@ -15,7 +15,7 @@ namespace Puppy.Monitoring.Unit.Tests.Reporting.Failure
         {
             SystemTime.Now = () => new DateTime(2013, 04, 20, 12, 13, 14);
 
-            Publisher.Use(new TestPipelineAdapter(publisher));
+            Publisher.Use(new TestPipelineAdapter(publisher), new PublishingContext("TEST_SYSTEM", "TEST"));
         }
 
         public override void Observe()

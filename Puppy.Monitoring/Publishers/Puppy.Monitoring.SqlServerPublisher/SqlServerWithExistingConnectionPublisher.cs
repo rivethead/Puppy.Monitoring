@@ -22,13 +22,13 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             id, 
                                 PublishedOn, Year, Month, Day, Hour, Minute, Second, Timestamp, 
                                 Category, SubCategory, Segment,
-                                TookMilliseconds, EventType
+                                TookMilliseconds, EventType, System, Module, MachineName
                         )
                         VALUES(
                             @id, 
                                 @publishedOn, @year, @month, @day, @hour, @minute, @second, @timestamp,
                                 @category, @subCategory, @segment,
-                                @milliseconds, @eventType
+                                @milliseconds, @eventType, @system, @module, @machineName
                 )";
 
             var parameters = new[]
@@ -48,7 +48,10 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             subCategory  = @event.Categorisation.SubCategory,
                             segment = @event.Categorisation.Segmentation,
                             milliseconds = @event.Timings.Took, 
-                            eventType = @event.GetType().Name
+                            eventType = @event.GetType().Name,
+                            system = @event.Context.System,
+                            module = @event.Context.Module,
+                            machineName = @event.Context.MachineName,
                         }
                 };
             connection.Execute(sql, parameters);

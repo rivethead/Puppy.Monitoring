@@ -9,17 +9,20 @@ namespace Puppy.Monitoring.Publishing
     public class Publisher
     {
         private static IPipelineAdapter pipelineAdapter = new NullPipelineAdapter();
+        private static PublishingContext publishingContext;
 
         private static readonly ILog log = LogManager.GetLogger<Publisher>();
 
-        public static void Use(IPipelineAdapter adapter)
+        public static void Use(IPipelineAdapter adapter, PublishingContext context)
         {
             pipelineAdapter = adapter;
+            publishingContext = context;
         }
 
         public static void Reset()
         {
             pipelineAdapter = null;
+            publishingContext = null;
         }
 
         public void Publish(IEvent @event)
@@ -41,6 +44,7 @@ namespace Puppy.Monitoring.Publishing
 
             log.DebugFormat("Pushing {0} down the pipeline using adapter {1}", @event.GetType(),
                             pipelineAdapter.GetType());
+
 
             pipelineAdapter.Push(@event);
         }

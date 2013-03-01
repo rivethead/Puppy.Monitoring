@@ -1,3 +1,5 @@
+using Puppy.Monitoring.Publishing;
+
 namespace Puppy.Monitoring.Events
 {
     public class NullReportEvent : IEvent
@@ -15,6 +17,12 @@ namespace Puppy.Monitoring.Events
         public Timings Timings
         {
             get { return null; }
+        }
+
+        public PublishingContext Context { get; private set; }
+        public void AttachContext(PublishingContext context)
+        {
+            Context = context;
         }
     }
 }

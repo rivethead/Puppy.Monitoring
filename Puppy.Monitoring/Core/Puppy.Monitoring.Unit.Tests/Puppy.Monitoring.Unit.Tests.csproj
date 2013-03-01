@@ -75,6 +75,7 @@
     <Compile Include="Publishing\Default\BinaryFilePublishing\when_publishing_an_event_to_the_binary_file_publisher.cs" />
     <Compile Include="Publishing\Default\BinaryFilePublishing\when_publishing_a_null_event_to_the_binary_file_publisher.cs" />
     <Compile Include="Publishing\when_a_null_event_is_published.cs" />
+    <Compile Include="Publishing\when_no_publishing_context_is_set.cs" />
     <Compile Include="Publishing\when_publishing_an_event.cs" />
     <Compile Include="Adapters\when_publishing_an_event_and_the_pipeline_adapter_is_not_available.cs" />
     <Compile Include="Reporting\CustomEvent\when_reporting_a_custom_event.cs" />

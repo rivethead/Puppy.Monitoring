@@ -1,4 +1,5 @@
 using System;
+using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.Events
 {
@@ -12,9 +13,15 @@ namespace Puppy.Monitoring.Events
             EventAudit = new EventTiming(publishedOn);
         }
 
+        public PublishingContext Context { get; private set; }
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; private set; }
         public Timings Timings { get; private set; }
+
+        public void AttachContext(PublishingContext context)
+        {
+            this.Context = context;
+        }
 
         public override string ToString()
         {
@@ -24,6 +31,5 @@ namespace Puppy.Monitoring.Events
                                  Timings,
                                  Environment.NewLine);
         }
-
     }
 }

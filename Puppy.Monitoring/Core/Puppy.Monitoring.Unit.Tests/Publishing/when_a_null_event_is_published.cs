@@ -13,7 +13,7 @@ namespace Puppy.Monitoring.Unit.Tests.Publishing
 
         public when_a_null_event_is_published()
         {
-            Publisher.Use(new TestPipelineAdapter(test_publisher));
+            Publisher.Use(new TestPipelineAdapter(test_publisher), new PublishingContext("TEST_SYSTEM", "TEST"));
             expected_event = null;
         }
 

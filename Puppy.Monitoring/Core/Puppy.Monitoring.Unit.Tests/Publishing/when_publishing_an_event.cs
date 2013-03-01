@@ -11,7 +11,7 @@ namespace Puppy.Monitoring.Unit.Tests.Publishing
 
         public when_publishing_an_event()
         {
-            Publisher.Use(new TestPipelineAdapter(test_publisher));
+            Publisher.Use(new TestPipelineAdapter(test_publisher), new PublishingContext("TEST_SYSTEM", "TEST"));
             expected_event = new TestEvent();
         }
 
