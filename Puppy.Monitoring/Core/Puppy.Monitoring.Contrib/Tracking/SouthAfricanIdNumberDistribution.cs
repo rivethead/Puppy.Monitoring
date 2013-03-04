@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using Puppy.Monitoring.Tracking;
@@ -8,6 +9,10 @@ namespace Puppy.Monitoring.Contrib.Tracking
     {
         private readonly SouthAfricanIdNumber idNumber;
         private readonly string baseFolder;
+
+        public SouthAfricanIdNumberDistribution(string idNumber) : this(idNumber, AppDomain.CurrentDomain.BaseDirectory)
+        {
+        }
 
         public SouthAfricanIdNumberDistribution(string idNumber, string baseFolder)
         {

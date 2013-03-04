@@ -5,9 +5,9 @@ using System.Security;
 [assembly: AssemblyDescription("Puppy.Monitoring")]
 [assembly: AssemblyProduct("Puppy.Monitoring")]
 [assembly: AssemblyVersion("0.1.0")]
-[assembly: AssemblyFileVersion("0.1.18")]
+[assembly: AssemblyFileVersion("0.1.19")]
 
-[assembly: AssemblyInformationalVersion("0.1.18.54fa63")]
+[assembly: AssemblyInformationalVersion("0.1.19.3f5fad")]
 [assembly: ComVisibleAttribute(false)]
 [assembly: CLSCompliantAttribute(false)]
 
