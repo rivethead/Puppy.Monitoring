@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tracking\when_tracking_an_external_call.cs" />
     <Compile Include="_helpers\AnotherTestEvent.cs" />
     <Compile Include="_helpers\EventSpecificPipeline.cs" />
     <Compile Include="_helpers\EventTypeSpecificPublisher.cs" />
