@@ -1,10 +1,9 @@
 namespace Puppy.Monitoring.Tracking
 {
-	public interface IDefineTrackingNamingConvention
+    public interface IDefineTrackingNamingConvention
 	{
-		string RequestPrefix { get; }
-
-		string ResponsePrefix { get; }
+        string RequestFileName(string identifier);
+        string ResponseFileName(string identifier);
 	}
 
 	

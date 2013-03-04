@@ -125,17 +125,19 @@
     <Compile Include="ReportInfoCollector.cs" />
     <Compile Include="SystemTime.cs" />
     <Compile Include="Track.cs" />
+    <Compile Include="Tracking\FolderPerIdentifierDistribution.cs" />
+    <Compile Include="Tracking\IFileDistributionAlgorithm.cs" />
     <Compile Include="Tracking\IWriteTracking.cs" />
     <Compile Include="Tracking\FileTrackingWriter.cs" />
     <Compile Include="Tracking\IDefineTrackingNamingConvention.cs" />
     <Compile Include="Tracking\DefaultTrackingNamingConvention.cs" />
+    <Compile Include="Tracking\SingleFolderFileDistribution.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="Tracking\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

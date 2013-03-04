@@ -82,7 +82,7 @@ namespace Puppy.Monitoring
                 .Call(() => string.Empty)
                 .UsingRequest(new object().ToString())
                 .SerialiseResponse(r => string.Empty)
-                .WriteUsing(new FileTrackingWriter())
+                .WriteUsing(new FileTrackingWriter(null, null))
                 .WithIdentifier(() => string.Empty)
                 .OnSuccess(Report.Success)
                 .OnFailure(Report.Failure)

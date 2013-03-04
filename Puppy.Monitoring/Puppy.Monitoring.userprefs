@@ -1,12 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Core\Puppy.Monitoring\Track.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Regex Toolkit">
     <Files>
       <File FileName="Core\Puppy.Monitoring\Track.cs" Line="64" Column="27" />
-      <File FileName="Core\Puppy.Monitoring\Measure.cs" Line="17" Column="2" />
-      <File FileName="Core\Puppy.Monitoring\MeasurementInfoCollectorWithReturn.cs" Line="25" Column="9" />
-      <File FileName="Core\Puppy.Monitoring\Tracking\IWriteTracking.cs" Line="9" Column="2" />
-      <File FileName="Core\Puppy.Monitoring\Tracking\FileTrackingWriter.cs" Line="16" Column="1" />
+      <File FileName="Core\Puppy.Monitoring\Measure.cs" Line="1" Column="1" />
+      <File FileName="Core\Puppy.Monitoring\MeasurementInfoCollectorWithReturn.cs" Line="1" Column="1" />
+      <File FileName="Core\Puppy.Monitoring\Tracking\IWriteTracking.cs" Line="1" Column="1" />
+      <File FileName="Core\Puppy.Monitoring\Tracking\FileTrackingWriter.cs" Line="1" Column="1" />
+      <File FileName="Regex Toolkit" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
