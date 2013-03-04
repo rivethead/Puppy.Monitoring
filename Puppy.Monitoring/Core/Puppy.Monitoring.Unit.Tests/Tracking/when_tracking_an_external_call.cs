@@ -47,7 +47,8 @@ namespace Puppy.Monitoring.Unit.Tests.Tracking
             tracking_writer
                 .Verify(w => w.Write(It.Is<string>(s => s.Equals(identifier)),
                                      It.Is<string>(r => r.Equals(request)),
-                                     It.Is<string>(r => r.Equals(expected_response.ToString()))));
+                                     It.Is<string>(r => r.Equals(expected_response.ToString())),
+                                     It.IsAny<bool>()));
         }
 
 
