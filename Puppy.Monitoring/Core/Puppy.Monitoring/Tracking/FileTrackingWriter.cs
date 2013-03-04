@@ -43,7 +43,7 @@ namespace Puppy.Monitoring.Tracking
 
         private void WriteContentToFile(FileLocation fileLocation, string content)
         {
-            log.InfoFormat("Writing track file to {0}", fileLocation);
+            log.InfoFormat("Writing track file to {0}", fileLocation.FullPath);
 
             if (!Directory.Exists(fileLocation.Folder))
             {
@@ -51,11 +51,11 @@ namespace Puppy.Monitoring.Tracking
                 Directory.CreateDirectory(fileLocation.Folder);
             }
 
-            using (var file = new StreamWriter(fileLocation.FullPath, true))
+            using (var file = new FileStream(fileLocation.FullPath, FileMode.OpenOrCreate))
             {
                 var bytes = new byte[content.Length * sizeof(char)];
                 Buffer.BlockCopy(content.ToCharArray(), 0, bytes, 0, bytes.Length);
-                file.Write(bytes);
+                file.Write(bytes, 0, bytes.Length);
             }
 
         }
