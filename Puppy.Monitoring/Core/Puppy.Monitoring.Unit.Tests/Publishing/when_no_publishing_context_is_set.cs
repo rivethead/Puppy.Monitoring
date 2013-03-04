@@ -1,6 +1,6 @@
 ﻿using System;
 using Puppy.Monitoring.Publishing;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Publishing
@@ -22,9 +22,9 @@ namespace Puppy.Monitoring.Unit.Tests.Publishing
         }
 
         [Observation]
-        public void an_exception_is_thrown()
+        public void an_exception_is_not_thrown()
         {
-            actual_exception.ShouldNotBeNull();
+            actual_exception.ShouldBeNull();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Puppy.Monitoring.Adapters;
 using Puppy.Monitoring.Adapters.Default;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Adapters.Default

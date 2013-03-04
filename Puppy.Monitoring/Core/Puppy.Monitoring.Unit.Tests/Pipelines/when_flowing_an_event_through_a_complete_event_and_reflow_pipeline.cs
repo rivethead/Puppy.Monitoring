@@ -2,7 +2,7 @@
 using System.Linq;
 using Puppy.Monitoring.Pipeline;
 using Puppy.Monitoring.Pipeline.Pipelets;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Pipelines

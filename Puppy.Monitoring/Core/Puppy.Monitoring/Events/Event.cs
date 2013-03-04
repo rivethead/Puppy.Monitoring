@@ -13,7 +13,7 @@ namespace Puppy.Monitoring.Events
             EventAudit = new EventTiming(publishedOn);
         }
 
-        public PublishingContext Context { get; private set; }
+        public PublishingContext Context { get; protected set; }
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; private set; }
         public Timings Timings { get; private set; }

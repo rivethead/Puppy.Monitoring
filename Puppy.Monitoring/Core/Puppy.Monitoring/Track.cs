@@ -1,15 +1,13 @@
 using System;
 using Puppy.Monitoring.Tracking;
-using Puppy.Monitoring.Events;
 
 namespace Puppy.Monitoring
 {
 	public class Track<TResponse>
 	{
 		string request;
-		string response;
 		IWriteTracking writer;
-		Func<TResponse> call;
+	    readonly Func<TResponse> call;
 		Func<ReportInfoCollector> failure;
 		Func<TResponse, string> serialise;
 		Func<string> identifier;
@@ -73,8 +71,8 @@ namespace Puppy.Monitoring
 		{
 			Measure
 				.This<TResponse> (WrappedCall)
-				.OnSuccess (() => success)
-				.OnFailure (() => failure)
+				.OnSuccess (() => success())
+				.OnFailure (() => failure())
 				.Gauge ();
 		}
 
@@ -86,14 +84,9 @@ namespace Puppy.Monitoring
 				.SerialiseResponse (r => string.Empty)
 				.WriteUsing (new FileTrackingWriter ())
 				.WithIdentifier (() => string.Empty)
-					.OnSuccess (() => new SuccessEvent (new Categorisation("TEST")))
-					.OnFailure (() => new FailureEvent (new Categorisation("TEST")))
+					.OnSuccess (Report.Success)
+                    .OnFailure(Report.Failure)
 				.Go ();
 		}
 	}
-
-
-
-
-
 }

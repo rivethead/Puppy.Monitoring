@@ -2,6 +2,7 @@
 
 namespace Puppy.Monitoring.Publishing
 {
+    [Serializable]
     public class PublishingContext
     {
         public PublishingContext(string system, string module, string machineName, string runningAs)
