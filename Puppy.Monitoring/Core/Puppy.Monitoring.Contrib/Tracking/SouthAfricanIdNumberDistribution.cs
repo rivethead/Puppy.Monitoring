@@ -8,7 +8,7 @@ namespace Puppy.Monitoring.Contrib.Tracking
     public class SouthAfricanIdNumberDistribution : IFileDistributionAlgorithm
     {
         private readonly SouthAfricanIdNumber idNumber;
-        private readonly string baseFolder;
+        private string baseFolder;
 
         public SouthAfricanIdNumberDistribution(string idNumber) : this(idNumber, AppDomain.CurrentDomain.BaseDirectory)
         {
@@ -21,6 +21,10 @@ namespace Puppy.Monitoring.Contrib.Tracking
         }
         public FileLocation GetFileLocation(string filename)
         {
+            baseFolder = string.IsNullOrEmpty(baseFolder)
+                             ? AppDomain.CurrentDomain.BaseDirectory
+                             : baseFolder;
+
             return new FileLocation(filename.Trim(Path.GetInvalidPathChars()).Trim(Path.GetInvalidFileNameChars()),
                 Path.Combine(baseFolder, idNumber.Checksum, idNumber.BirthMonth, idNumber.BirthDay, idNumber.IDNumber));
         }
