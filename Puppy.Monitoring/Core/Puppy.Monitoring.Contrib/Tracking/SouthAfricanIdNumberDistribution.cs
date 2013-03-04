@@ -19,9 +19,10 @@ namespace Puppy.Monitoring.Contrib.Tracking
             this.idNumber = new SouthAfricanIdNumber(idNumber);
             this.baseFolder = baseFolder;
         }
-        public string GetFileLocation(string filename)
+        public FileLocation GetFileLocation(string filename)
         {
-            return Path.Combine(baseFolder, idNumber.Checksum, idNumber.BirthMonth, idNumber.BirthDay, idNumber.IDNumber, filename);
+            return new FileLocation(filename.Trim(Path.GetInvalidPathChars()).Trim(Path.GetInvalidFileNameChars()),
+                Path.Combine(baseFolder, idNumber.Checksum, idNumber.BirthMonth, idNumber.BirthDay, idNumber.IDNumber));
         }
     }
 

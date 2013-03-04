@@ -13,9 +13,10 @@ namespace Puppy.Monitoring.Tracking
             this.baseFolder = baseFolder;
         }
 
-        public string GetFileLocation(string filename)
+        public FileLocation GetFileLocation(string filename)
         {
-            return Path.Combine(baseFolder, folderName, filename);
+            return new FileLocation(filename.Trim(Path.GetInvalidPathChars()).Trim(Path.GetInvalidFileNameChars()),
+                        Path.Combine(baseFolder, folderName));
         }
     }
 }

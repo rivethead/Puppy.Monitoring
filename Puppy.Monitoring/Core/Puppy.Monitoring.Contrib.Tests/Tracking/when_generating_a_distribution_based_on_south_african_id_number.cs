@@ -18,7 +18,7 @@ namespace Puppy.Monitoring.Contrib.Tests.Tracking
 
         public override void Observe()
         {
-            file_path = distributor.GetFileLocation("temp.xml");
+            file_path = distributor.GetFileLocation("temp.xml").FileName;
         }
 
         private string[] Distribution

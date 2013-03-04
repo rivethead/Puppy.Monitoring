@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Security.AccessControl;
 using Common.Logging;
 
 namespace Puppy.Monitoring.Tracking
@@ -29,10 +30,10 @@ namespace Puppy.Monitoring.Tracking
 
             if (!overwrite)
             {
-                if (File.Exists(requestFileName))
+                if (File.Exists(requestFileName.FullPath))
                     log.InfoFormat("Appending to {0}", requestFileName);
 
-                if (File.Exists(responseFileName))
+                if (File.Exists(responseFileName.FullPath))
                     log.InfoFormat("Appending to {0}", responseFileName);
             }
 
@@ -40,11 +41,17 @@ namespace Puppy.Monitoring.Tracking
             WriteContentToFile(responseFileName, response);
         }
 
-        private void WriteContentToFile(string filepath, string content)
+        private void WriteContentToFile(FileLocation fileLocation, string content)
         {
-            log.InfoFormat("Writing track file to {0}", filepath);
+            log.InfoFormat("Writing track file to {0}", fileLocation);
 
-            using (var file = new StreamWriter(filepath, true))
+            if (!Directory.Exists(fileLocation.Folder))
+            {
+                log.InfoFormat("Creating folder called {0} to store tracking file {1}", fileLocation.Folder, fileLocation.FileName);
+                Directory.CreateDirectory(fileLocation.Folder);
+            }
+
+            using (var file = new StreamWriter(fileLocation.FullPath, true))
             {
                 var bytes = new byte[content.Length * sizeof(char)];
                 Buffer.BlockCopy(content.ToCharArray(), 0, bytes, 0, bytes.Length);
