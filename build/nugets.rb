@@ -32,7 +32,7 @@
 		:package_id => 'Puppy.Monitoring.Contrib',
 		:description => 'Puppy.Monitoring.Contrib',
 		:authors => 'rivethead_',
-		:base_folder => 'Puppy.Monitoring/Publishers/Puppy.Monitoring.Contrib/',
+		:base_folder => 'Puppy.Monitoring/Core/Puppy.Monitoring.Contrib/',
 		:files => [
 			['Puppy.Monitoring.Contrib.dll', 'lib\net45'],
 			['Puppy.Monitoring.Contrib.pdb', 'lib\net45']
