@@ -45,6 +45,7 @@ namespace Puppy.Monitoring.Publishing
             log.DebugFormat("Pushing {0} down the pipeline using adapter {1}", @event.GetType(),
                             pipelineAdapter.GetType());
 
+            @event.AttachContext(publishingContext);
 
             pipelineAdapter.Push(@event);
         }

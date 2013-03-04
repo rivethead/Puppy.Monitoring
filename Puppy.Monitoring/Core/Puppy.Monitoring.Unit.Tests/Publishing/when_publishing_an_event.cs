@@ -28,6 +28,13 @@ namespace Puppy.Monitoring.Unit.Tests.Publishing
 
 
         [Observation]
+        public void the_context_is_not_null()
+        {
+            expected_event.Context.ShouldNotBeNull();
+        }
+
+
+        [Observation]
         public void the_publisher_is_invoked_once()
         {
             test_publisher.NumberOfTimesInvoked.ShouldEqual(1);
