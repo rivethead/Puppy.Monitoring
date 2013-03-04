@@ -67,9 +67,9 @@ namespace Puppy.Monitoring
             return callResponse;
         }
 
-        public void Go()
+        public TResponse Go()
         {
-            Measure
+            return Measure
                 .This<TResponse>(WrappedCall)
                 .OnSuccess(() => success())
                 .OnFailure(() => failure())
