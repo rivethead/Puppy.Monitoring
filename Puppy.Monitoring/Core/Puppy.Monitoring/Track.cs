@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Puppy.Monitoring.Tracking;
 
 namespace Puppy.Monitoring
@@ -8,44 +6,23 @@ namespace Puppy.Monitoring
     public class Track<TResponse>
     {
         private readonly Func<TResponse> call;
-        private List<Func<ReportInfoCollector>> failure = new List<Func<ReportInfoCollector>>();
-        private List<Func<ReportInfoCollector>> success = new List<Func<ReportInfoCollector>>();
-        private Func<string> identifier;
-        private string request;
-        private Func<TResponse, string> serialise;
-        private IWriteTracking writer;
+        private static TrackWritingInfoCollector<TResponse> writingInfoCollector;
 
         private Track(Func<TResponse> call)
         {
             this.call = call;
         }
 
-        public Track<TResponse> Write(IWriteTracking @using, Func<string> identifier, string request, Func<TResponse, string> response)
+        public static TrackWritingInfoCollector<TResponse> Call(Func<TResponse> call)
         {
-            this.identifier = identifier;
-            writer = @using;
-            this.request = request;
-            serialise = response;
-
-            return this;
-        }
-
-        public Track<TResponse> Report(Func<ReportInfoCollector> success, Func<ReportInfoCollector> failure)
-        {
-            this.success.Add(success);
-            this.failure.Add(failure);
-            return this;
-        }
-
-        public static Track<TResponse> Call(Func<TResponse> call)
-        {
-            return new Track<TResponse>(call);
+            writingInfoCollector = new TrackWritingInfoCollector<TResponse>(new Track<TResponse>(call));
+            return writingInfoCollector;
         }
 
         private TResponse WrappedCall()
         {
             var callResponse = call();
-            writer.Write(identifier(), request, serialise(callResponse));
+            writingInfoCollector.Execute(callResponse);
 
             return callResponse;
         }
@@ -54,8 +31,8 @@ namespace Puppy.Monitoring
         {
             return Measure
                 .This<TResponse>(WrappedCall)
-                .OnSuccess(success)
-                .OnFailure(failure)
+                .OnSuccess(writingInfoCollector.Successes())
+                .OnFailure(writingInfoCollector.Failures())
                 .Gauge();
         }
 
@@ -63,7 +40,14 @@ namespace Puppy.Monitoring
         {
             Track<string>
                 .Call(() => string.Empty)
-                .Write(null, () => string.Empty, string.Empty, s => string.Empty)
+                .Write()
+                    .With(new FileTrackingWriter(null))
+                    .UsingAsIdentifier(() => string.Empty)
+                    .TheRequest(string.Empty)
+                    .TheResponse(r => string.Empty)
+                .Report()
+                    .Success(null)
+                    .Failure(null)
                 .Go();
         }
     }

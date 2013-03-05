@@ -1,15 +1,14 @@
 using System;
 using System.IO;
-using System.Security.AccessControl;
 using Common.Logging;
 
 namespace Puppy.Monitoring.Tracking
 {
     public class FileTrackingWriter : IWriteTracking
     {
+        private static readonly ILog log = LogManager.GetLogger<FileTrackingWriter>();
         private readonly IFileDistributionAlgorithm distributionAlgorithm;
         private readonly IDefineTrackingNamingConvention namingConvention;
-        private static readonly ILog log = LogManager.GetLogger<FileTrackingWriter>();
 
         public FileTrackingWriter(IFileDistributionAlgorithm distributionAlgorithm)
             : this(new DefaultTrackingNamingConvention(), distributionAlgorithm)
@@ -41,6 +40,10 @@ namespace Puppy.Monitoring.Tracking
             WriteContentToFile(responseFileName, response);
         }
 
+        public void Dispose()
+        {
+        }
+
         private void WriteContentToFile(FileLocation fileLocation, string content)
         {
             log.InfoFormat("Writing track file to {0}", fileLocation.FullPath);
@@ -53,15 +56,10 @@ namespace Puppy.Monitoring.Tracking
 
             using (var file = new FileStream(fileLocation.FullPath, FileMode.OpenOrCreate))
             {
-                var bytes = new byte[content.Length * sizeof(char)];
+                var bytes = new byte[content.Length*sizeof (char)];
                 Buffer.BlockCopy(content.ToCharArray(), 0, bytes, 0, bytes.Length);
                 file.Write(bytes, 0, bytes.Length);
             }
-
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

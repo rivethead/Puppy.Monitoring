@@ -132,7 +132,10 @@
     <Compile Include="Tracking\FileTrackingWriter.cs" />
     <Compile Include="Tracking\IDefineTrackingNamingConvention.cs" />
     <Compile Include="Tracking\DefaultTrackingNamingConvention.cs" />
+    <Compile Include="Tracking\NullTrackingWriter.cs" />
     <Compile Include="Tracking\SingleFolderFileDistribution.cs" />
+    <Compile Include="TrackReportInfoCollector.cs" />
+    <Compile Include="TrackWritingInfoCollector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

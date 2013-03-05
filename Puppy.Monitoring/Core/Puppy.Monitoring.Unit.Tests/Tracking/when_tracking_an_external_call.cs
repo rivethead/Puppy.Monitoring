@@ -1,5 +1,8 @@
 ﻿using System;
 using Moq;
+using Puppy.Monitoring.Adapters;
+using Puppy.Monitoring.Events;
+using Puppy.Monitoring.Publishing;
 using Puppy.Monitoring.Tracking;
 using Xunit.Extensions;
 
@@ -11,6 +14,7 @@ namespace Puppy.Monitoring.Unit.Tests.Tracking
         private readonly string identifier;
         private readonly string request;
         private readonly Mock<IWriteTracking> tracking_writer;
+        private readonly Mock<IPipelineAdapter> pipeline_adapter;
         private bool was_called;
 
         public when_tracking_an_external_call()
@@ -20,16 +24,32 @@ namespace Puppy.Monitoring.Unit.Tests.Tracking
             identifier = "xxx";
             request = "This is the request";
             expected_response = new ExternalCallResponse(1, "hello");
+
+            pipeline_adapter = new Mock<IPipelineAdapter>();
+            Publisher.Use(pipeline_adapter.Object, new PublishingContext("TEST", "TEST"));
         }
 
         public override void Observe()
         {
             Track<ExternalCallResponse>
                 .Call(() => fake_external_call(request))
-                .Write(tracking_writer.Object, () => identifier, request, response => response.ToString())
-                .Report(Report.Success, Report.Failure)
+                .Write()
+                    .With(tracking_writer.Object)
+                    .UsingAsIdentifier(() => identifier)
+                    .TheRequest(request)
+                    .TheResponse(response => response.ToString())
+                .Report()
+                    .Success(Report.Success)
                 .Go();
         }
+
+        [Observation]
+        public void the_success_event_is_published()
+        {
+            pipeline_adapter
+                .Verify(a => a.Push(It.IsAny<IEvent>()));
+        }
+
 
         [Observation]
         public void the_external_system_is_called()
