@@ -26,12 +26,8 @@ namespace Puppy.Monitoring.Unit.Tests.Tracking
         {
             Track<ExternalCallResponse>
                 .Call(() => fake_external_call(request))
-                .UsingRequest(request)
-                .SerialiseResponse(response => response.ToString())
-                .WriteUsing(tracking_writer.Object)
-                .WithIdentifier(() => identifier)
-                .OnSuccess(Report.Success)
-                .OnFailure(Report.Failure)
+                .Write(tracking_writer.Object, () => identifier, request, response => response.ToString())
+                .Report(Report.Success, Report.Failure)
                 .Go();
         }
 

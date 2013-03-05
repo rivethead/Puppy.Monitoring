@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Puppy.Monitoring.Tracking;
 
 namespace Puppy.Monitoring
@@ -6,11 +8,11 @@ namespace Puppy.Monitoring
     public class Track<TResponse>
     {
         private readonly Func<TResponse> call;
-        private Func<ReportInfoCollector> failure;
+        private List<Func<ReportInfoCollector>> failure = new List<Func<ReportInfoCollector>>();
+        private List<Func<ReportInfoCollector>> success = new List<Func<ReportInfoCollector>>();
         private Func<string> identifier;
         private string request;
         private Func<TResponse, string> serialise;
-        private Func<ReportInfoCollector> success;
         private IWriteTracking writer;
 
         private Track(Func<TResponse> call)
@@ -18,45 +20,26 @@ namespace Puppy.Monitoring
             this.call = call;
         }
 
-        public Track<TResponse> UsingRequest(string request)
+        public Track<TResponse> Write(IWriteTracking @using, Func<string> identifier, string request, Func<TResponse, string> response)
         {
+            this.identifier = identifier;
+            writer = @using;
             this.request = request;
+            serialise = response;
+
             return this;
         }
 
-        public Track<TResponse> WriteUsing(IWriteTracking writer)
+        public Track<TResponse> Report(Func<ReportInfoCollector> success, Func<ReportInfoCollector> failure)
         {
-            this.writer = writer;
+            this.success.Add(success);
+            this.failure.Add(failure);
             return this;
         }
 
         public static Track<TResponse> Call(Func<TResponse> call)
         {
             return new Track<TResponse>(call);
-        }
-
-        public Track<TResponse> SerialiseResponse(Func<TResponse, string> serialise)
-        {
-            this.serialise = serialise;
-            return this;
-        }
-
-        public Track<TResponse> WithIdentifier(Func<string> identifier)
-        {
-            this.identifier = identifier;
-            return this;
-        }
-
-        public Track<TResponse> OnSuccess(Func<ReportInfoCollector> success)
-        {
-            this.success = success;
-            return this;
-        }
-
-        public Track<TResponse> OnFailure(Func<ReportInfoCollector> failure)
-        {
-            this.failure = failure;
-            return this;
         }
 
         private TResponse WrappedCall()
@@ -71,8 +54,8 @@ namespace Puppy.Monitoring
         {
             return Measure
                 .This<TResponse>(WrappedCall)
-                .OnSuccess(() => success())
-                .OnFailure(() => failure())
+                .OnSuccess(success)
+                .OnFailure(failure)
                 .Gauge();
         }
 
@@ -80,12 +63,7 @@ namespace Puppy.Monitoring
         {
             Track<string>
                 .Call(() => string.Empty)
-                .UsingRequest(new object().ToString())
-                .SerialiseResponse(r => string.Empty)
-                .WriteUsing(new FileTrackingWriter(null, null))
-                .WithIdentifier(() => string.Empty)
-                .OnSuccess(Report.Success)
-                .OnFailure(Report.Failure)
+                .Write(null, () => string.Empty, string.Empty, s => string.Empty)
                 .Go();
         }
     }

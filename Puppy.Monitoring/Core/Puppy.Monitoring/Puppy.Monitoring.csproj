@@ -126,6 +126,7 @@
     <Compile Include="SystemTime.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="Tracking\FolderPerIdentifierDistribution.cs" />
+    <Compile Include="Tracking\GuidFolderDistribution.cs" />
     <Compile Include="Tracking\IFileDistributionAlgorithm.cs" />
     <Compile Include="Tracking\IWriteTracking.cs" />
     <Compile Include="Tracking\FileTrackingWriter.cs" />
