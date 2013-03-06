@@ -10,11 +10,11 @@ namespace Puppy.Monitoring
     public class TrackWritingInfoCollector<TResponse>
     {
         private readonly Track<TResponse> track;
-        private IWriteTracking writer = new NullTrackingWriter();
+        private readonly TrackReportInfoCollector<TResponse> trackReportInfoCollector;
+        private Func<string> identifier = () => "unknown";
         private string request = string.Empty;
         private Func<TResponse, string> serialisation = response => response.ToString();
-        private Func<string> identifier = () => "unknown";
-        private readonly TrackReportInfoCollector<TResponse> trackReportInfoCollector;
+        private IWriteTracking writer = new NullTrackingWriter();
 
         public TrackWritingInfoCollector(Track<TResponse> track)
         {
@@ -51,6 +51,20 @@ namespace Puppy.Monitoring
             return this;
         }
 
+        public TrackWritingInfoCollector<TResponse> TheRequest<TRequest>(TRequest request, IXmlSerializable serialiser)
+        {
+            using (var stringWriter = new StringWriter())
+            {
+                using (var xmlStream = new XmlTextWriter(stringWriter))
+                {
+                    serialiser.WriteXml(xmlStream);
+                    this.request = stringWriter.GetStringBuilder().ToString();
+                }
+            }
+
+            return this;
+        }
+
         public TrackReportInfoCollector<TResponse> TheResponse(Func<TResponse, string> serialisation)
         {
             this.serialisation = serialisation;
@@ -81,9 +95,9 @@ namespace Puppy.Monitoring
 
         internal void Execute(TResponse callResponse)
         {
-            writer.Write(identifier(), 
-                request,
-                serialisation(callResponse));    
+            writer.Write(identifier(),
+                         request,
+                         serialisation(callResponse));
         }
 
         public TrackWritingInfoCollector<TResponse> UsingAsIdentifier(Func<string> identifier)
