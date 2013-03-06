@@ -10,7 +10,7 @@ namespace Puppy.Monitoring.DucksboardPublisher.Tests
 
         public override void Observe()
         {
-            configuration = ConfigurationManager.GetSection("pageAppearanceGroup/pageAppearance") as PageAppearanceSection;
+            //configuration = ConfigurationManager.GetSection("pageAppearanceGroup/pageAppearance") as PageAppearanceSection;
         }
 
         [Observation]
