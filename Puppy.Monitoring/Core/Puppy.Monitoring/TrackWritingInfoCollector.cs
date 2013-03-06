@@ -14,11 +14,12 @@ namespace Puppy.Monitoring
         private string request = string.Empty;
         private Func<TResponse, string> serialisation = response => response.ToString();
         private Func<string> identifier = () => "unknown";
-        private TrackReportInfoCollector<TResponse> trackReportInfoCollector;
+        private readonly TrackReportInfoCollector<TResponse> trackReportInfoCollector;
 
         public TrackWritingInfoCollector(Track<TResponse> track)
         {
             this.track = track;
+            trackReportInfoCollector = new TrackReportInfoCollector<TResponse>(this);
         }
 
         public TrackWritingInfoCollector<TResponse> Write()
@@ -53,7 +54,6 @@ namespace Puppy.Monitoring
         public TrackReportInfoCollector<TResponse> TheResponse(Func<TResponse, string> serialisation)
         {
             this.serialisation = serialisation;
-            trackReportInfoCollector = new TrackReportInfoCollector<TResponse>(this);
             return trackReportInfoCollector;
         }
 
