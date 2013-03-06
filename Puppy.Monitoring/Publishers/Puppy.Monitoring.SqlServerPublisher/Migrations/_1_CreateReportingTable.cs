@@ -27,6 +27,7 @@ namespace Puppy.Monitoring.SqlServerPublisher.Migrations
                 .WithColumn("System").AsString().Nullable()
                 .WithColumn("Module").AsString().Nullable()
                 .WithColumn("MachineName").AsString().Nullable()
+                .WithColumn("CorrelationId").AsGuid().Nullable()
                 .WithColumn("EventType").AsString().Nullable();
         }
 

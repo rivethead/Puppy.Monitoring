@@ -1,3 +1,4 @@
+using System;
 using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.Events
@@ -24,5 +25,7 @@ namespace Puppy.Monitoring.Events
         {
             Context = context;
         }
+
+        public Guid CorrelationId { get; private set; }
     }
 }

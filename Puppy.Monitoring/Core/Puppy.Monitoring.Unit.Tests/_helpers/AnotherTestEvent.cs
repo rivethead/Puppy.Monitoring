@@ -16,5 +16,7 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
         {
             Context = context;
         }
+
+        public Guid CorrelationId { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Puppy.Monitoring.Builders;
+﻿using System;
+using Puppy.Monitoring.Builders;
 
 namespace Puppy.Monitoring
 {
@@ -23,6 +24,7 @@ namespace Puppy.Monitoring
         internal bool IsTimeTracking { get; set; }
         internal long Milliseconds { get; set; }
         internal IBuildReportingEvent eventBuilder;
+        internal Guid CorrelationId = Guid.Empty;
         internal string Segment { get; private set; }
 
         public ReportInfoCollector InCategory(string category)
@@ -53,6 +55,12 @@ namespace Puppy.Monitoring
             IsTimeTracking = true;
             Milliseconds = milliseconds;
             eventBuilder = new TimeBasedEventReportingBuilder(this);
+            return this;
+        }
+
+        public ReportInfoCollector RelateTo(Guid correlationId)
+        {
+            this.CorrelationId = correlationId;
             return this;
         }
 

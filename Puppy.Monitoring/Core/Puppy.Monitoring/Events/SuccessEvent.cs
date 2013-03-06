@@ -10,8 +10,17 @@ namespace Puppy.Monitoring.Events
         {
         }
 
+        public SuccessEvent(Categorisation categorisation, Timings timings, Guid correlationId) : base(categorisation, timings, correlationId)
+        {
+        }
+
         public SuccessEvent(Categorisation categorisation)
             : base(SystemTime.Now(), categorisation, new Timings(int.MinValue))
+        {
+        }
+
+        public SuccessEvent(Categorisation categorisation, Guid correlationId)
+            : base(categorisation, new Timings(int.MinValue), correlationId)
         {
         }
 

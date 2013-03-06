@@ -1,4 +1,5 @@
-﻿using Puppy.Monitoring.Publishing;
+﻿using System;
+using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.Events
 {
@@ -9,5 +10,6 @@ namespace Puppy.Monitoring.Events
         Timings Timings { get; }
         PublishingContext Context { get; }
         void AttachContext(PublishingContext context);
+        Guid CorrelationId { get; }
     }
 }

@@ -22,13 +22,13 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             id, 
                                 PublishedOn, Year, Month, Day, Hour, Minute, Second, Timestamp, 
                                 Category, SubCategory, Segment,
-                                TookMilliseconds, EventType, System, Module, MachineName
+                                TookMilliseconds, EventType, System, Module, MachineName, CorrelationId
                         )
                         VALUES(
                             @id, 
                                 @publishedOn, @year, @month, @day, @hour, @minute, @second, @timestamp,
                                 @category, @subCategory, @segment,
-                                @milliseconds, @eventType, @system, @module, @machineName
+                                @milliseconds, @eventType, @system, @module, @machineName, @correlationId
                 )";
 
             var parameters = new[]
@@ -52,6 +52,7 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             system = @event.Context.System,
                             module = @event.Context.Module,
                             machineName = @event.Context.MachineName,
+                            correlationId = @event.CorrelationId
                         }
                 };
             connection.Execute(sql, parameters);
