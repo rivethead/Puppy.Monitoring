@@ -32,4 +32,5 @@ namespace Puppy.Monitoring.Pipeline.Pipelets.Actions
             return ListOfEvents.Create(new ActionTriggeredEvent(@event));
         }
     }
+
 }
