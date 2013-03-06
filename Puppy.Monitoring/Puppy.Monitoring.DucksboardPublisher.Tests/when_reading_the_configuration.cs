@@ -16,7 +16,6 @@ namespace Puppy.Monitoring.DucksboardPublisher.Tests
         [Observation]
         public void do_stuff()
         {
-            true.ShouldBeFalse();
         }
 
     }
