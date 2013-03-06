@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using Puppy.Monitoring.Tracking;
 
@@ -53,6 +54,23 @@ namespace Puppy.Monitoring
         {
             this.serialisation = serialisation;
             trackReportInfoCollector = new TrackReportInfoCollector<TResponse>(this);
+            return trackReportInfoCollector;
+        }
+
+        public TrackReportInfoCollector<TResponse> TheResponse(Func<TResponse> response, IXmlSerializable serialiser)
+        {
+            this.serialisation = r =>
+                {
+                    using (var stream = new StringWriter())
+                    {
+                        using (var xmlStream = new XmlTextWriter(stream))
+                        {
+                            serialiser.WriteXml(xmlStream);
+                            return stream.GetStringBuilder().ToString();
+                        }
+                    }
+                };
+
             return trackReportInfoCollector;
         }
 
