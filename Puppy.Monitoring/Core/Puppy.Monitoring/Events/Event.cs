@@ -31,9 +31,9 @@ namespace Puppy.Monitoring.Events
 
         public PublishingContext Context { get; protected set; }
         public EventTiming EventAudit { get; private set; }
-        public Categorisation Categorisation { get; private set; }
-        public Guid CorrelationId { get; private set; }
-        public Timings Timings { get; private set; }
+        public Categorisation Categorisation { get; internal set; }
+        public Guid CorrelationId { get; internal set; }
+        public Timings Timings { get; internal set; }
         public Guid Id { get; private set; }
 
         public void AttachContext(PublishingContext context)

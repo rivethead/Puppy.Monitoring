@@ -52,6 +52,7 @@
     <Compile Include="Adapters\Default\NullPipelineAdapter.cs" />
     <Compile Include="Adapters\Default\TypeAgnosticPipelineContainer.cs" />
     <Compile Include="Adapters\Default\TypeSpecificPipelineContainer.cs" />
+    <Compile Include="Builders\CustomEventReportingBuilder.cs" />
     <Compile Include="Builders\IBuildReportingEvent.cs" />
     <Compile Include="Builders\FailureEventReportingBuilder.cs" />
     <Compile Include="Builders\ReportingEventEchoBuilder.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Builders\TimeBasedEventReportingBuilder.cs" />
     <Compile Include="Publishing\Publisher.cs" />
     <Compile Include="Publishing\PublishingContext.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Report.cs" />
     <Compile Include="ReportInfoCollector.cs" />
     <Compile Include="SystemTime.cs" />

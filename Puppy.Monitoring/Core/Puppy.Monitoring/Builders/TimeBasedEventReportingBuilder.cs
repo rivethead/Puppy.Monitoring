@@ -5,19 +5,21 @@ namespace Puppy.Monitoring.Builders
     internal class TimeBasedEventReportingBuilder : IBuildReportingEvent
     {
         private readonly ReportInfoCollector info;
+        private readonly IBuildReportingEvent baseBuilder;
 
-        public TimeBasedEventReportingBuilder(ReportInfoCollector info)
+        public TimeBasedEventReportingBuilder(ReportInfoCollector info, IBuildReportingEvent baseBuilder)
         {
             this.info = info;
+            this.baseBuilder = baseBuilder;
         }
 
         public IEvent Build()
         {
-            return info.Success
-                       ? (IEvent) new SuccessEvent(new Categorisation(info.Category, info.SubCategory, info.Segment),
-                                                   new Timings(info.Milliseconds), info.CorrelationId)
-                       : new FailureEvent(new Categorisation(info.Category, info.SubCategory),
-                                          new Timings(info.Milliseconds), info.CorrelationId);
+            var @event = baseBuilder.Build() as Event;
+
+            @event.Timings = new Timings(info.Milliseconds);
+
+            return @event;
         }
     }
 }
