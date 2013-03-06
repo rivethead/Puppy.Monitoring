@@ -35,6 +35,7 @@ namespace Puppy.Monitoring.Contrib.Tracking
         public SouthAfricanIdNumber(string idNumber)
         {
             IDNumber = idNumber;
+            ValidateIdNumber();
         }
 
         public string IDNumber { get; private set; }
@@ -54,14 +55,17 @@ namespace Puppy.Monitoring.Contrib.Tracking
             get { return IDNumber.Substring(4, 2); }
         }
 
-        public bool IsValidIDNumber()
+        private void ValidateIdNumber()
         {
+            var errorMessage = string.Format("Invalid South Africa ID number '{0}'", IDNumber);
+
             if (string.IsNullOrEmpty(IDNumber))
-                return false;
+                throw new Exception(errorMessage);
 
             const string pattern = @"^(\d{13})?$";
 
-            return Regex.IsMatch(IDNumber, pattern);
+            if(!Regex.IsMatch(IDNumber, pattern))
+                throw new Exception(errorMessage);
         }
     }
 }
