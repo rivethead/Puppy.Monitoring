@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Puppy.Monitoring.DucksboardPublisher.Configuration;
+﻿using Puppy.Monitoring.DucksboardPublisher.Configuration;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.DucksboardPublisher.Tests

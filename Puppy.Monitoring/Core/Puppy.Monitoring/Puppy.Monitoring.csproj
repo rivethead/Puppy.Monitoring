@@ -60,6 +60,8 @@
     <Compile Include="Events\Categorisation.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\EventTiming.cs" />
+    <Compile Include="Events\ExternalServiceCalledFailureEvent.cs" />
+    <Compile Include="Events\ExternalServiceCallSuccessEvent.cs" />
     <Compile Include="Events\FailureEvent.cs" />
     <Compile Include="Events\IAdminEvent.cs" />
     <Compile Include="Events\IEvent.cs" />

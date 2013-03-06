@@ -21,11 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.Contrib", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.Contrib.Tests", "Core\Puppy.Monitoring.Contrib.Tests\Puppy.Monitoring.Contrib.Tests.csproj", "{5498824D-4657-4311-AC16-5A8CA430B9ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.DucksboardPublisher", "Puppy.Monitoring.DucksboardPublisher\Puppy.Monitoring.DucksboardPublisher.csproj", "{BDC1C21E-CA81-4698-9381-FFA0471E1B3E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ducksboard", "Ducksboard", "{6A47A562-BDE3-4FEB-83E2-F1CFA7F63EED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.DucksboardPublisher.Tests", "Puppy.Monitoring.DucksboardPublisher.Tests\Puppy.Monitoring.DucksboardPublisher.Tests.csproj", "{5D8D2BAC-14CA-4911-9FE1-B1FBDE0D7CD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.DucksboardPublisher", "Publishers\Puppy.Monitoring.DucksboardPublisher\Puppy.Monitoring.DucksboardPublisher.csproj", "{BDC1C21E-CA81-4698-9381-FFA0471E1B3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.DucksboardPublisher.Tests", "Publishers\Puppy.Monitoring.DucksboardPublisher.Tests\Puppy.Monitoring.DucksboardPublisher.Tests.csproj", "{5D8D2BAC-14CA-4911-9FE1-B1FBDE0D7CD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
