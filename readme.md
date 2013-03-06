@@ -62,9 +62,9 @@ The tracking element of the library builds on the Reporting and Measurement func
 
 ## Publishing ##
 
-Now the more interesting part (I hope!). Using the fluent interface to define what should be published when is pretty straight forward, but somewhere you need to define *how* the event will be published. 
+Now the more interesting part (I hope!). Using the fluent interface to define **what event** should be published **when** is pretty straight forward, but somewhere you need to define **how** the event will be published. 
 
-The publishing is done by using a publishing pipeline made up of pipelets. Each pipelet takes an event (of type `IEvent`) performs an action and then has the option of returning another list of events to the put back into the pipeline.
+The publishing is done by using a publishing pipeline made up of pipelets. Each pipelet takes an event (of type `IEvent`) performs an action and then has the option of returning another list of events to be put back into the pipeline.
 
 There are 5 implementations (currently) of the `IPipeline` interface. 
 
