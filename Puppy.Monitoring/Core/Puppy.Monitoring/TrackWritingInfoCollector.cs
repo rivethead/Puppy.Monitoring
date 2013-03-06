@@ -57,7 +57,7 @@ namespace Puppy.Monitoring
             return trackReportInfoCollector;
         }
 
-        public TrackReportInfoCollector<TResponse> TheResponse(Func<TResponse> response, IXmlSerializable serialiser)
+        public TrackReportInfoCollector<TResponse> TheResponse(Func<TResponse, IXmlSerializable> serialiser)
         {
             this.serialisation = r =>
                 {
@@ -65,7 +65,7 @@ namespace Puppy.Monitoring
                     {
                         using (var xmlStream = new XmlTextWriter(stream))
                         {
-                            serialiser.WriteXml(xmlStream);
+                            serialiser(r).WriteXml(xmlStream);
                             return stream.GetStringBuilder().ToString();
                         }
                     }
