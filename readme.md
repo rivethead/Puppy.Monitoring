@@ -60,6 +60,18 @@ The tracking element of the library builds on the Reporting and Measurement func
 		.Failure(Report.Failure) // if the call fails publish this event
     .Go();
 
+## Publishing ##
 
+Now the more interesting part (I hope!). Using the fluent interface to define what should be published when is pretty straight forward, but somewhere you need to define *how* the event will be published. 
+
+The publishing is done by using a publishing pipeline made up of pipelets. Each pipelet takes an event (of type `IEvent`) performs an action and then has the option of returning another list of events to the put back into the pipeline.
+
+There are 5 implementations (currently) of the `IPipeline` interface. 
+
+- `NullPipeline` surprising does nothing to the event
+- `LinearPipeline` takes the original event and flows it to each pipelet in the pipeline, but it **does not** add the returned events from the pipelets into the pipeline.
+- `QueuedEventsPipeline` takes the original event and adds the event to an internal queue, the first event in the queue (the original event at this point in time) is then flowed to each pipelet. Each event returned from a pipelet to added to the internal queue. The pipeline will continue flow events from the internal queue to each pipelet until the internal queue is empty. I like this one.
+- `CompleteAndReflowPipeline` will flow the original event to each pipelet. The events returned from each pipelet is added to a internal list. Once the original event is published to each pipelet, the events in the internal list is flowed to each pipelet. The process repeats itself recursively so be aware of circular pipelines.
+- `ReflowOnEventPipeline` will flow the origin event to each pipelet. If a pipelet returns events, the returned events will be flowed into the pipeline **immediately**. Once the new events are flowed, the original event is flowed to the next pipelet. Again be aware of circular pipelines.
 
     
