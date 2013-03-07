@@ -58,8 +58,10 @@ namespace Puppy.Monitoring.SqlServer.Imps
                 }
                 catch (Exception e)
                 {
-                    log.InfoFormat("Failed to rebuild and republish event of type {0}, {1}", @event.FullEventType, @event.EventAssembly);
-                    log.ErrorFormat("The failure was {0}", e);
+                    log.ErrorFormat("Failed to rebuild and republish event of type {0}, {1}", @event.FullEventType, @event.EventAssembly);
+                    log.ErrorFormat("Make sure the event you are rebuilding has a contructor that takes:");
+                    log.ErrorFormat("PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id");
+                    log.ErrorFormat("The failure was {0}", e.Message);
                 }
             }
 

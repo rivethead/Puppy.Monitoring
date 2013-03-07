@@ -33,6 +33,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Boo.Lang">
+      <HintPath>..\..\packages\Boo.0.9.4\lib\Boo.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang.Compiler">
+      <HintPath>..\..\packages\Boo-Compiler.0.9.4\lib\Boo.Lang.Compiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang.Parser">
+      <HintPath>..\..\packages\Boo-Compiler.0.9.4\lib\Boo.Lang.Parser.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
@@ -45,6 +54,9 @@
     </Reference>
     <Reference Include="Quartz">
       <HintPath>..\..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.DSL">
+      <HintPath>..\..\packages\RhinoDSL.1.0.0\lib\Rhino.DSL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -60,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="configuration.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -70,6 +85,8 @@
       <Link>AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Daemon.cs" />
+    <Compile Include="DSL\BaseDaemonConfigurationDSL.cs" />
+    <Compile Include="DSL\DaemonConfigurationDslEngine.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +98,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Puppy.Monitoring\Puppy.Monitoring.csproj">
+      <Project>{61a85473-6de5-4bca-8508-d6395949a297}</Project>
+      <Name>Puppy.Monitoring</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Publishers\Puppy.Monitoring.SqlServerPublisher.Tests\Puppy.Monitoring.SqlServerPublisher.Tests.csproj">
       <Project>{379e2e09-2839-40b4-b563-0831eee4729a}</Project>
       <Name>Puppy.Monitoring.SqlServerPublisher.Tests</Name>

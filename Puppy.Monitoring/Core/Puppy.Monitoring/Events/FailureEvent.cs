@@ -1,10 +1,15 @@
 using System;
+using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.Events
 {
     [Serializable]
     public class FailureEvent : Event
     {
+        public FailureEvent(PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id) : base(context, eventAudit, categorisation, correlationId, timings, id)
+        {
+        }
+
         public FailureEvent(Categorisation categorisation, Timings timings)
             : base(SystemTime.Now(), categorisation, timings)
         {

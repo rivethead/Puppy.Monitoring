@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using Puppy.Monitoring.Daemon.DSL;
+using Rhino.DSL;
 using Topshelf;
 
 namespace Puppy.Monitoring.Daemon
@@ -10,6 +13,16 @@ namespace Puppy.Monitoring.Daemon
             var serviceName = ConfigurationManager.AppSettings["puppy.Daemon.Name"];
             var serviceDescription = ConfigurationManager.AppSettings["puppy.Daemon.Description"];
             var serviceDisplayName = ConfigurationManager.AppSettings["puppy.Daemon.DisplayName"];
+
+            var factory = new DslFactory
+                {
+                    BaseDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                };
+            factory.Register<BaseDaemonConfigurationDSL>(new BaseDaemonConfigurationDSLEngine());
+
+            var dsl = factory.Create<BaseDaemonConfigurationDSL>("configuration.boo");
+            dsl.Prepare();
+            dsl.Execute();
 
             HostFactory.Run(x =>                                 
             {
@@ -26,19 +39,6 @@ namespace Puppy.Monitoring.Daemon
                 x.SetDisplayName(serviceDisplayName);                       
                 x.SetServiceName(serviceName);                       
             });        
-        }
-    }
-
-    public class TownCrier
-    {
-        public void Start()
-        {
-            
-        }
-
-        public void Stop()
-        {
-            
         }
     }
 }

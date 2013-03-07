@@ -1,10 +1,15 @@
 using System;
+using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.Events
 {
     [Serializable]
     public class ExternalServiceCallSuccessEvent : Event
     {
+        public ExternalServiceCallSuccessEvent(PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id) : base(context, eventAudit, categorisation, correlationId, timings, id)
+        {
+        }
+
         public ExternalServiceCallSuccessEvent() : base(new Categorisation("unknown"), Guid.Empty)
         {
         }
