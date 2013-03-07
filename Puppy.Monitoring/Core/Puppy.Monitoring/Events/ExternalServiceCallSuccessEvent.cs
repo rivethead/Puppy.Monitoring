@@ -5,6 +5,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class ExternalServiceCallSuccessEvent : Event
     {
+        public ExternalServiceCallSuccessEvent() : base(new Categorisation("unknown"), Guid.Empty)
+        {
+        }
+
         public ExternalServiceCallSuccessEvent(Categorisation categorisation, Guid correlationId) : base(categorisation, correlationId)
         {
         }

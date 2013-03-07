@@ -20,6 +20,16 @@ namespace Puppy.Monitoring.Events
         {
         }
 
+        protected Event(PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id)
+        {
+            Context = context;
+            EventAudit = eventAudit;
+            Categorisation = categorisation;
+            CorrelationId = correlationId;
+            Timings = timings;
+            Id = id;
+        }
+
         protected Event(DateTime publishedOn, Categorisation categorisation, Timings timings, Guid correlationId)
         {
             Categorisation = categorisation;
@@ -29,12 +39,13 @@ namespace Puppy.Monitoring.Events
             Id = Guid.NewGuid();
         }
 
+        public Guid Id { get; private set; }
+
         public PublishingContext Context { get; protected set; }
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; internal set; }
         public Guid CorrelationId { get; internal set; }
         public Timings Timings { get; internal set; }
-        public Guid Id { get; private set; }
 
         public void AttachContext(PublishingContext context)
         {

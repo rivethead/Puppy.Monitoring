@@ -1,74 +1,32 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 
 namespace Puppy.Monitoring.DucksboardPublisher.Configuration
 {
-    public class PageAppearanceSection : ConfigurationSection
+    public class EventMappingConfigSection : ConfigurationSection
     {
-        // Create a "remoteOnly" attribute.
-        [ConfigurationProperty("remoteOnly", DefaultValue = "false", IsRequired = false)]
-        public Boolean RemoteOnly
+        [ConfigurationProperty("Mappings")]
+        public MappingsCollection MappingItems
         {
-            get { return (Boolean) this["remoteOnly"]; }
-            set { this["remoteOnly"] = value; }
+            get { return ((MappingsCollection)(base["Mappings"])); }
         }
 
-        // Create a "font" element.
-        [ConfigurationProperty("font")]
-        public FontElement Font
+        public static string GetUrl()
         {
-            get { return (FontElement) this["font"]; }
-            set { this["font"] = value; }
+            return (ConfigurationManager.GetSection("EventMapping") as EventMappingConfigSection).MappingItems.Url;
         }
 
-        // Create a "color element."
-        [ConfigurationProperty("color")]
-        public ColorElement Color
+        public static string GetApiKey()
         {
-            get { return (ColorElement) this["color"]; }
-            set { this["color"] = value; }
-        }
-    }
-
-    // Define the "font" element
-    // with "name" and "size" attributes.
-    public class FontElement : ConfigurationElement
-    {
-        [ConfigurationProperty("name", DefaultValue = "Arial", IsRequired = true)]
-        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\", MinLength = 1, MaxLength = 60)]
-        public String Name
-        {
-            get { return (String) this["name"]; }
-            set { this["name"] = value; }
+            return (ConfigurationManager.GetSection("EventMapping") as EventMappingConfigSection).MappingItems.ApiKey;
         }
 
-        [ConfigurationProperty("size", DefaultValue = "12", IsRequired = false)]
-        [IntegerValidator(ExcludeRange = false, MaxValue = 24, MinValue = 6)]
-        public int Size
+        public static IEnumerable<MapElement> GetMapping()
         {
-            get { return (int) this["size"]; }
-            set { this["size"] = value; }
-        }
-    }
+            var items = (ConfigurationManager.GetSection("EventMapping") as EventMappingConfigSection).MappingItems;
 
-    // Define the "color" element 
-    // with "background" and "foreground" attributes.
-    public class ColorElement : ConfigurationElement
-    {
-        [ConfigurationProperty("background", DefaultValue = "FFFFFF", IsRequired = true)]
-        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\GHIJKLMNOPQRSTUVWXYZ", MinLength = 6, MaxLength = 6)]
-        public String Background
-        {
-            get { return (String) this["background"]; }
-            set { this["background"] = value; }
-        }
-
-        [ConfigurationProperty("foreground", DefaultValue = "000000", IsRequired = true)]
-        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\GHIJKLMNOPQRSTUVWXYZ", MinLength = 6, MaxLength = 6)]
-        public String Foreground
-        {
-            get { return (String) this["foreground"]; }
-            set { this["foreground"] = value; }
+            return from object item in items select item as MapElement;
         }
     }
 }

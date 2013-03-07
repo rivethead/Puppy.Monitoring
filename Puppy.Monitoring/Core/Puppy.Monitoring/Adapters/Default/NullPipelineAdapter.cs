@@ -9,7 +9,7 @@ namespace Puppy.Monitoring.Adapters.Default
 
         public void Push(IEvent @event)
         {
-            log.WarnFormat("The event {0} will disappear down the rabbit hole that is the null pipeline adapter");    
+            log.WarnFormat("The event {0} will disappear down the rabbit hole that is the null pipeline adapter", @event.GetType());    
         }
     }
 }

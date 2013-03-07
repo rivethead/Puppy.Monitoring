@@ -8,15 +8,15 @@ namespace Puppy.Monitoring.Pipeline.Pipelets
     public abstract class BasePipelet : IPipelet
     {
         private static readonly ILog log = LogManager.GetLogger<BasePipelet>();
-        protected readonly IEventSpecification internalFilter;
+        protected readonly IEventSpecification eventFilter;
 
         protected BasePipelet() : this(new AlwaysSatisfiedEventSpecification())
         {
         }
 
-        protected BasePipelet(IEventSpecification internalFilter)
+        protected BasePipelet(IEventSpecification eventFilter)
         {
-            this.internalFilter = internalFilter;
+            this.eventFilter = eventFilter;
         }
 
         public IEnumerable<IEvent> Flow(IEvent @event)
@@ -35,7 +35,7 @@ namespace Puppy.Monitoring.Pipeline.Pipelets
 
         public bool WantsEvent(IEvent @event)
         {
-            return internalFilter.SatisfiedBy(@event) && FilterEvent(@event);
+            return eventFilter.SatisfiedBy(@event) && FilterEvent(@event);
         }
 
         protected abstract bool FilterEvent(IEvent @event);

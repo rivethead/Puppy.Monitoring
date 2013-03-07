@@ -28,6 +28,8 @@ namespace Puppy.Monitoring.SqlServerPublisher.Migrations
                 .WithColumn("Module").AsString().Nullable()
                 .WithColumn("MachineName").AsString().Nullable()
                 .WithColumn("CorrelationId").AsGuid().Nullable()
+                .WithColumn("FullEventType").AsString().Nullable()
+                .WithColumn("EventAssembly").AsString().Nullable()
                 .WithColumn("EventType").AsString().Nullable();
         }
 

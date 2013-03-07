@@ -1,4 +1,5 @@
 ﻿using Moq;
+using Puppy.Monitoring.Pipeline.Pipelets.Filters;
 using Puppy.Monitoring.Pipeline.Pipelets.Publishing;
 using Puppy.Monitoring.Publishing;
 using Puppy.Monitoring.Unit.Tests._helpers;
@@ -14,7 +15,7 @@ namespace Puppy.Monitoring.Unit.Tests.Pipelines
         public when_flowing_an_event_to_the_publishing_pipelet()
         {
             publisher = new Mock<IPublishEvents>();
-            publisher_pipelet = new PublishingPipelet(publisher.Object);
+            publisher_pipelet = new PublishingPipelet(publisher.Object, new NullEventSpecification());
         }
 
         public override void Observe()

@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BDC1C21E-CA81-4698-9381-FFA0471E1B3E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{E80B13B1-3698-43EC-8F7D-157F96128401}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Puppy.Monitoring.DucksboardPublisher</RootNamespace>
-    <AssemblyName>Puppy.Monitoring.DucksboardPublisher</AssemblyName>
+    <RootNamespace>Puppy.Monitoring.Daemon</RootNamespace>
+    <AssemblyName>Puppy.Monitoring.Daemon</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,6 +33,19 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>..\..\packages\Common.Logging.Log4Net.2.0.1\lib\net20\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -43,29 +54,45 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Topshelf">
+      <HintPath>..\..\packages\TopShelf.3.1.0\lib\net40-full\Topshelf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\build\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AbsoluteGraphPayload.cs" />
-    <Compile Include="Configuration\MapElement.cs" />
-    <Compile Include="Configuration\MappingsCollection.cs" />
-    <Compile Include="DucksboardPublisher.cs" />
-    <Compile Include="Configuration\EventMappingConfigSection.cs" />
-    <Compile Include="IDucksboardPayload.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Puppy.Monitoring\Puppy.Monitoring.csproj">
-      <Project>{61A85473-6DE5-4BCA-8508-D6395949A297}</Project>
-      <Name>Puppy.Monitoring</Name>
-    </ProjectReference>
+    <Compile Include="Daemon.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="imps.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Publishers\Puppy.Monitoring.SqlServerPublisher.Tests\Puppy.Monitoring.SqlServerPublisher.Tests.csproj">
+      <Project>{379e2e09-2839-40b4-b563-0831eee4729a}</Project>
+      <Name>Puppy.Monitoring.SqlServerPublisher.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Puppy.Monitoring.Imps\Puppy.Monitoring.Imps.csproj">
+      <Project>{7fab7720-29ff-4a9c-b6ab-f2ca9449a561}</Project>
+      <Name>Puppy.Monitoring.Imps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Puppy.Monitoring.SqlServer.Imps\Puppy.Monitoring.SqlServer.Imps.csproj">
+      <Project>{5f015c92-436a-49f3-a542-46586448ae20}</Project>
+      <Name>Puppy.Monitoring.SqlServer.Imps</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

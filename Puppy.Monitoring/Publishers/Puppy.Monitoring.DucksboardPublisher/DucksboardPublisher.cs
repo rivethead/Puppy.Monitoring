@@ -14,7 +14,7 @@ namespace Puppy.Monitoring.DucksboardPublisher
 
         public void Publish(IEvent @event)
         {
-            
+                        
         }
     }
 }
