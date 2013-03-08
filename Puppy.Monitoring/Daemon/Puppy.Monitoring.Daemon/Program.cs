@@ -1,7 +1,4 @@
-﻿using System;
-using System.Configuration;
-using Puppy.Monitoring.Daemon.DSL;
-using Rhino.DSL;
+﻿using System.Configuration;
 using Topshelf;
 
 namespace Puppy.Monitoring.Daemon
@@ -14,15 +11,6 @@ namespace Puppy.Monitoring.Daemon
             var serviceDescription = ConfigurationManager.AppSettings["puppy.Daemon.Description"];
             var serviceDisplayName = ConfigurationManager.AppSettings["puppy.Daemon.DisplayName"];
 
-            var factory = new DslFactory
-                {
-                    BaseDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                };
-            factory.Register<BaseDaemonConfigurationDSL>(new BaseDaemonConfigurationDSLEngine());
-
-            var dsl = factory.Create<BaseDaemonConfigurationDSL>("configuration.boo");
-            dsl.Prepare();
-            dsl.Execute();
 
             HostFactory.Run(x =>                                 
             {

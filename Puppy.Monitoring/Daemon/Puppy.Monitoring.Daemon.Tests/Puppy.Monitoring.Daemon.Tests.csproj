@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F015C92-436A-49F3-A542-46586448AE20}</ProjectGuid>
+    <ProjectGuid>{9243F95A-C1D1-4BF7-A168-E016657F8AB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Puppy.Monitoring.SqlServer.Imps</RootNamespace>
-    <AssemblyName>Puppy.Monitoring.SqlServer.Imps</AssemblyName>
+    <RootNamespace>Puppy.Monitoring.Daemon.Tests</RootNamespace>
+    <AssemblyName>Puppy.Monitoring.Daemon.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,32 +30,52 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
+    <Reference Include="Boo.Lang">
+      <HintPath>..\..\packages\Boo.0.9.4\lib\Boo.Lang.dll</HintPath>
     </Reference>
-    <Reference Include="Quartz">
-      <HintPath>..\..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
+    <Reference Include="Boo.Lang.Compiler">
+      <HintPath>..\..\packages\Boo-Compiler.0.9.4\lib\Boo.Lang.Compiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang.Parser">
+      <HintPath>..\..\packages\Boo-Compiler.0.9.4\lib\Boo.Lang.Parser.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.DSL">
+      <HintPath>..\..\packages\RhinoDSL.1.0.0\lib\Rhino.DSL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.bdd">
+      <HintPath>..\..\packages\xUnit.BDD.1.9.1.1\lib\net35\xunit.bdd.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\build\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Dapper.NET\SqlMapper.cs" />
-    <Compile Include="IProviderStoredEvents.cs" />
-    <Compile Include="SqlServerDatabaseStoredEvents.cs" />
-    <Compile Include="StoredEventRepublishJob.cs" />
+    <Compile Include="DSLTestAdapter.cs" />
+    <Compile Include="DSLTestEvent.cs" />
+    <Compile Include="DSLTestPipelet1.cs" />
+    <Compile Include="DSLTestPipelet2.cs" />
+    <Compile Include="DSLTestPipeline.cs" />
+    <Compile Include="when_configuring_daemon_using_dsl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="configuration.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -63,8 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Puppy.Monitoring\Puppy.Monitoring.csproj">
-      <Project>{61A85473-6DE5-4BCA-8508-D6395949A297}</Project>
+      <Project>{61a85473-6de5-4bca-8508-d6395949a297}</Project>
       <Name>Puppy.Monitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Puppy.Monitoring.Daemon\Puppy.Monitoring.Daemon.csproj">
+      <Project>{E80B13B1-3698-43EC-8F7D-157F96128401}</Project>
+      <Name>Puppy.Monitoring.Daemon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

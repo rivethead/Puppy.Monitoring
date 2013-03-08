@@ -2,6 +2,7 @@
 using Boo.Lang.Compiler.Ast;
 using Common.Logging;
 using Puppy.Monitoring.Adapters;
+using Puppy.Monitoring.Adapters.Default;
 using Puppy.Monitoring.Pipeline;
 using Puppy.Monitoring.Pipeline.Pipelets;
 using Puppy.Monitoring.Publishing;
@@ -14,9 +15,9 @@ namespace Puppy.Monitoring.Daemon.DSL
         private static readonly ILog log = LogManager.GetLogger<BaseDaemonConfigurationDSL>();
         private readonly List<IPipelet> pipelets = new List<IPipelet>();
 
-        private IPipelineAdapter adapter;
+        private IPipelineAdapter adapter = new NullPipelineAdapter();
         protected ActionDelegate configuration;
-        private IPipeline pipeline;
+        private IPipeline pipeline = new NullPipeline();
         private string systemName;
         private string moduleName;
 
