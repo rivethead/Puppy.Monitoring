@@ -8,6 +8,7 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
     public class AnotherTestEvent : IEvent
     {
         public string Description { get; set; }
+        public Guid Id { get; private set; }
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; private set; }
         public Timings Timings { get; private set; }

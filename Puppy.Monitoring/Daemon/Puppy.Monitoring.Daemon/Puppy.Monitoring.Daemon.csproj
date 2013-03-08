@@ -46,12 +46,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Log4Net">
-      <HintPath>..\..\packages\Common.Logging.Log4Net.2.0.1\lib\net20\Common.Logging.Log4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Quartz">
       <HintPath>..\..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
@@ -101,18 +95,6 @@
     <ProjectReference Include="..\..\Core\Puppy.Monitoring\Puppy.Monitoring.csproj">
       <Project>{61a85473-6de5-4bca-8508-d6395949a297}</Project>
       <Name>Puppy.Monitoring</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Publishers\Puppy.Monitoring.SqlServerPublisher.Tests\Puppy.Monitoring.SqlServerPublisher.Tests.csproj">
-      <Project>{379e2e09-2839-40b4-b563-0831eee4729a}</Project>
-      <Name>Puppy.Monitoring.SqlServerPublisher.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Puppy.Monitoring.Imps\Puppy.Monitoring.Imps.csproj">
-      <Project>{7fab7720-29ff-4a9c-b6ab-f2ca9449a561}</Project>
-      <Name>Puppy.Monitoring.Imps</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Puppy.Monitoring.SqlServer.Imps\Puppy.Monitoring.SqlServer.Imps.csproj">
-      <Project>{5f015c92-436a-49f3-a542-46586448ae20}</Project>
-      <Name>Puppy.Monitoring.SqlServer.Imps</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

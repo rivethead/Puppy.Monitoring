@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.Pipeline;
+using Puppy.Monitoring.Pipeline.Pipelets;
 
 namespace Puppy.Monitoring.Unit.Tests._helpers
 {
@@ -22,6 +23,11 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
         public void Flow(IEvent @event)
         {
             Events.Add(@event);
+        }
+
+        public IPipeline Add(IPipelet pipelet)
+        {
+            return this;
         }
     }
 
@@ -47,6 +53,11 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
         public void Flow(IEvent @event)
         {
             Flow(@event as TestEvent);
+        }
+
+        public IPipeline Add(IPipelet pipelet)
+        {
+            return this;
         }
     }
 }

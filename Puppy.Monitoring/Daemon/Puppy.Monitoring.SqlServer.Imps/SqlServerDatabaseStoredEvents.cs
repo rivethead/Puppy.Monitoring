@@ -11,8 +11,8 @@ namespace Puppy.Monitoring.SqlServer.Imps
 {
     public class SqlServerDatabaseStoredEvents : IProviderStoredEvents
     {
-        private SqlConnection connection;
         private static readonly ILog log = LogManager.GetLogger<SqlServerDatabaseStoredEvents>();
+        private SqlConnection connection;
 
         public SqlServerDatabaseStoredEvents(SqlConnection connection)
         {
@@ -34,7 +34,7 @@ namespace Puppy.Monitoring.SqlServer.Imps
 
         private List<IEvent> GetLatestEvents(SqlConnection cnn)
         {
-            var eventData = cnn.Query("SELECT * FROM ReportingEvent");
+            var eventData = cnn.Query("SELECT top 10 * FROM ReportingEvent WHERE isnull(Republished, 0) = 0 ORDER BY PublishedOn");
             var events = new List<IEvent>();
 
             foreach (var @event in eventData)
@@ -60,7 +60,8 @@ namespace Puppy.Monitoring.SqlServer.Imps
                 {
                     log.ErrorFormat("Failed to rebuild and republish event of type {0}, {1}", @event.FullEventType, @event.EventAssembly);
                     log.ErrorFormat("Make sure the event you are rebuilding has a contructor that takes:");
-                    log.ErrorFormat("PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id");
+                    log.ErrorFormat(
+                        "PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id");
                     log.ErrorFormat("The failure was {0}", e.Message);
                 }
             }

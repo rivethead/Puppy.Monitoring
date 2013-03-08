@@ -42,5 +42,11 @@ namespace Puppy.Monitoring.Pipeline
                 Flow(eventToFlow);
             }
         }
+
+        public IPipeline Add(IPipelet pipelet)
+        {
+            pipelets.Add(pipelet);
+            return this;
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace Puppy.Monitoring.Events
 {
     public interface IEvent
     {
+        Guid Id { get; }
         EventTiming EventAudit { get; }
         Categorisation Categorisation { get; }
         Timings Timings { get; }

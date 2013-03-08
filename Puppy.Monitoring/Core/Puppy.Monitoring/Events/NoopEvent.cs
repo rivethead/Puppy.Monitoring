@@ -6,6 +6,7 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class NoopEvent : IEvent
     {
+        public Guid Id { get; private set; }
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; private set; }
         public Timings Timings { get; private set; }

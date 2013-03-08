@@ -30,6 +30,7 @@ namespace Puppy.Monitoring.SqlServerPublisher.Migrations
                 .WithColumn("CorrelationId").AsGuid().Nullable()
                 .WithColumn("FullEventType").AsString().Nullable()
                 .WithColumn("EventAssembly").AsString().Nullable()
+                .WithColumn("Republished").AsBoolean().NotNullable()
                 .WithColumn("EventType").AsString().Nullable();
         }
 

@@ -1,5 +1,6 @@
 ﻿using Puppy.Monitoring.Adapters;
 using Puppy.Monitoring.Events;
+using Puppy.Monitoring.Pipeline;
 using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.Unit.Tests._helpers
@@ -20,6 +21,11 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
         public void Push(IEvent @event)
         {
             publisher.Publish(@event);
+        }
+
+        public IPipelineAdapter Register(IPipeline pipeline)
+        {
+            return this;
         }
     }
 }

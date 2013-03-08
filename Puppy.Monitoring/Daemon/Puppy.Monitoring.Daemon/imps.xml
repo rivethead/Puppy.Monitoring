@@ -6,7 +6,7 @@
     <overwrite-existing-data>true</overwrite-existing-data>
   </processing-directives>
 
-  <schedule>
+  <!--<schedule>
 
     <job>
       <name>jobName1</name>
@@ -46,6 +46,6 @@
       </simple>
     </trigger>
 
-  </schedule>
+  </schedule>-->
 
 </job-scheduling-data>

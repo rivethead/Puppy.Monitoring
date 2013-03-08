@@ -5,6 +5,8 @@ namespace Puppy.Monitoring.Events
 {
     public class NullReportEvent : IEvent
     {
+        public Guid Id { get; private set; }
+
         public EventTiming EventAudit
         {
             get { return null; }
