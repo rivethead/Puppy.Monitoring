@@ -148,63 +148,7 @@ You only need to do this once in your application (e.g. Global.asax.cs)
 The purpose of a pipeline adapter is to take an event from the `Publisher` and pass the event to the appropriate pipeline. The appropriate pipeline will then flow the event to each pipelet. 
 
 The `ManualPipelineAdapter` uses manual registration of pipelines. But pipelines can be resolved from an IoC container or any other source.
-### Pipelets ###
-Yes I realise it is not a word. A pipelet is a part in a pipeline and performs an action based on the event being flowed to the pipelet.
 
-What the pipelet do is up to you, but there are a couple of default pipelets implemented currently. But first how to you implement your own pipelet?
-
-Simple. Inherit from the `BasePipelet` base class and off you go.
-
-    public class MyPipelet : BasePipelet
-    {
-        private readonly IEventSpecification filter; // the filter to apply to determine whether the pipelet should be invoked
-
-        public MyPipelet(IEventSpecification filter)            
-        {
-            this.filter = filter;
-        }
-
-        protected override bool FilterEvent(IEvent @event)
-        {
-            return filter.SatisfiedBy(@event);
-        }
-
-        protected override IEnumerable<IEvent> Accept(IEvent @event)
-        {
-
-            // do magic here
-
-            return ListOfEvents.Create(new NoopEvent()); // return a list of events if applicable
-        }
-    }
-
-Currently there are default pipelets available from Puppy.
-
-### Event filters ###
-The purpose of event filters is to filter out events in which a pipelet is **not** interested. An example would be; if you have a pipelet that counts the number of `FailureEvent` events, the pipelet is only interested in events of type `FailureEvent`. In order to filter the other events implement the `IEventSpecification` interface and inject the filter into the pipelet. The `BasePipelet` implementation will filter out any events **not** satisfying your filter but invoke your pipelet for all the events **satisfying** your filter. Again there are a couple of filter implementations available already.
-
-To implement the filter mentioned above the code will look as follows:
-
-    public class FailureEventSpecification : IEventSpecification
-    {
-        private readonly IEventSpecification successor = new NullEventSpecification();
-
-        public FailureEventSpecification()
-        {
-        }
-
-        public FailureEventSpecification(IEventSpecification successor)
-        {
-            this.successor = successor;
-        }
-
-        public bool SatisfiedBy(IEvent @event)
-        {
-            return @event.GetType() == typeof (FailureEvent) && successor.SatisfiedBy(@event);
-        }
-    }
-
-Notice the constructor taking another instance of `IEventSpecification`. This allows you to build chains of filters and mix and match filters to form complex (whilst easy to understand) filters.
 
 ### Publisher ###
 So now we have pipelines built up from pipelets. Pipelets using event filters to be invoked for the applicable events. We use the Report, Measure and Track fluent interfaces to define which events should be published when. Grand. The next question is how do we link all of this together? The glue to bring all the components together called the `Publisher`.
