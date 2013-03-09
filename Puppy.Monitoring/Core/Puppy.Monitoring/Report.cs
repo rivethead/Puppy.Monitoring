@@ -27,4 +27,5 @@ namespace Puppy.Monitoring
             new Publisher().Publish(@event);
         }
     }
+
 }

@@ -1,0 +1,16 @@
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Security;
+[assembly: AssemblyDescription("Puppy.Monitoring")]
+[assembly: AssemblyProduct("Puppy.Monitoring")]
+[assembly: AssemblyVersion("0.1.0")]
+[assembly: AssemblyFileVersion("0.1.48")]
+
+<<<<<<< HEAD
+=======
+[assembly: AssemblyInformationalVersion("0.1.48.bb14ca")]
+>>>>>>> 5cd7bc6d2d6a5960ef8ad5ba4c225351b4d2ab2d
+[assembly: ComVisibleAttribute(false)]
+[assembly: CLSCompliantAttribute(false)]
+[assembly: AssemblyInformationalVersion("0.1.14.a30486")]

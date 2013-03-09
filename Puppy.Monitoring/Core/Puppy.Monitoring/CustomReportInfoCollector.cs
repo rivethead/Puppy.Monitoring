@@ -13,10 +13,9 @@ namespace Puppy.Monitoring
             this.report = report;
         }
 
-        public CustomReportInfoCollector Event(IEvent @event)
+        public ReportInfoCollector Event(IEvent @event)
         {
-            this.@event = @event;
-            return this;
+            return new ReportInfoCollector(report, @event);
         }
 
         public void Publish()

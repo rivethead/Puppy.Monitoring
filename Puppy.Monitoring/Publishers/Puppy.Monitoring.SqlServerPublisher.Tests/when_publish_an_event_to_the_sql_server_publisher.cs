@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.SqlServerPublisher.Dapper.NET;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.SqlServerPublisher.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.SqlServerPublisher.Tests

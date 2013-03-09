@@ -1,5 +1,5 @@
 ﻿using Puppy.Monitoring.Publishing;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Publishing
@@ -11,7 +11,7 @@ namespace Puppy.Monitoring.Unit.Tests.Publishing
 
         public when_publishing_an_event()
         {
-            Publisher.Use(new TestPipelineAdapter(test_publisher));
+            Publisher.Use(new TestPipelineAdapter(test_publisher), new PublishingContext("TEST_SYSTEM", "TEST"));
             expected_event = new TestEvent();
         }
 
@@ -24,6 +24,13 @@ namespace Puppy.Monitoring.Unit.Tests.Publishing
         public void the_publisher_provided_by_the_configuration_is_invoked()
         {
             test_publisher.WasInvoked.ShouldBeTrue();
+        }
+
+
+        [Observation]
+        public void the_context_is_not_null()
+        {
+            expected_event.Context.ShouldNotBeNull();
         }
 
 

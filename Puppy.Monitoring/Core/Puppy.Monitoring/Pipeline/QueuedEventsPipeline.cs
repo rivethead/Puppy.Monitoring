@@ -11,6 +11,10 @@ namespace Puppy.Monitoring.Pipeline
         private readonly Queue<IEvent> queue = new Queue<IEvent>();
         private static readonly ILog log = LogManager.GetLogger<QueuedEventsPipeline>();
 
+        public QueuedEventsPipeline()
+        {
+        }
+
         public QueuedEventsPipeline(IEnumerable<IPipelet> pipelets) : base(pipelets)
         {
         }

@@ -22,6 +22,18 @@ namespace Puppy.Monitoring
             return this;
         }
 
+        public MeasurementInfoCollectorWithReturn<TReturn> OnFailure(IEnumerable<Func<ReportInfoCollector>> failure)
+        {
+            this.failures.AddRange(failure);
+            return this;
+        }
+
+        public MeasurementInfoCollectorWithReturn<TReturn> OnSuccess(IList<Func<ReportInfoCollector>> success)
+        {
+            this.successes.AddRange(success);
+            return this;
+        }
+
         public MeasurementInfoCollectorWithReturn<TReturn> OnSuccess(Func<ReportInfoCollector> success)
         {
             this.successes.Add(success);

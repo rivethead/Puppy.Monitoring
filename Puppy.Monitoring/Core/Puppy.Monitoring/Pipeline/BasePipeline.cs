@@ -11,6 +11,10 @@ namespace Puppy.Monitoring.Pipeline
         private readonly List<IPipelet> pipelets = new List<IPipelet>();
         private static readonly ILog log = LogManager.GetLogger<BasePipeline>();
 
+        protected BasePipeline()
+        {
+        }
+
         protected BasePipeline(IEnumerable<IPipelet> pipelets)
         {
             this.pipelets.AddRange(pipelets);
@@ -19,6 +23,12 @@ namespace Puppy.Monitoring.Pipeline
         public void Flow(IEvent @event)
         {
             Flow(@event, pipelets);
+        }
+
+        public IPipeline Add(IPipelet pipelet)
+        {
+            pipelets.Add(pipelet);
+            return this;
         }
 
         protected IEnumerable<IPipelet> RebuildPipeline(IEvent @event)

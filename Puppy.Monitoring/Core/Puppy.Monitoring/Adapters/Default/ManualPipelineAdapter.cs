@@ -38,7 +38,7 @@ namespace Puppy.Monitoring.Adapters.Default
             return this;
         }
 
-        public ManualPipelineAdapter Register(IPipeline pipeline)
+        public IPipelineAdapter Register(IPipeline pipeline)
         {
             ValidatePipeline(pipeline);
 

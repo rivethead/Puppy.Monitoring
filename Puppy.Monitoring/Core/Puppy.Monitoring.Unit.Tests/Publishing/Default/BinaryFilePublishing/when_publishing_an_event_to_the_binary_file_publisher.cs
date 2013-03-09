@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.Publishing.Default;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Publishing.Default.BinaryFilePublishing

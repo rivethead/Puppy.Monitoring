@@ -1,5 +1,6 @@
 ﻿using System;
 using Puppy.Monitoring.Events;
+using Puppy.Monitoring.Publishing;
 
 namespace Puppy.Monitoring.TestHelper
 {
@@ -10,5 +11,10 @@ namespace Puppy.Monitoring.TestHelper
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; private set; }
         public Timings Timings { get; private set; }
+        public PublishingContext Context { get; private set; }
+        public void AttachContext(PublishingContext context)
+        {
+            Context = context;
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.SqlServerPublisher.Dapper.NET;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.SqlServerPublisher.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.SqlServerPublisher.Tests
@@ -30,9 +30,11 @@ namespace Puppy.Monitoring.SqlServerPublisher.Tests
 
         private void given_the_puppy_monitoring_database_is_empty()
         {
-            using (
-                var delete_connection =
-                    new SqlConnection(ConfigurationManager.ConnectionStrings["puppy.sqlserver"].ConnectionString))
+            var connectionStringSettings = ConfigurationManager.ConnectionStrings["puppy.sqlserver"];
+            if(connectionStringSettings == null)
+                Console.WriteLine("connection string missing for 'puppy.sqlserver'");
+
+            using (var delete_connection = new SqlConnection(connectionStringSettings.ConnectionString))
             {
                 delete_connection.Open();
 

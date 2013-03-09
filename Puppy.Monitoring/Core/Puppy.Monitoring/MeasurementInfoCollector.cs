@@ -7,7 +7,7 @@ namespace Puppy.Monitoring
 {
     public class MeasurementInfoCollector
     {
-        private readonly Action actionToMeasure = () => { };
+        private Action actionToMeasure = () => { };
         private readonly List<Func<ReportInfoCollector>> failures = new List<Func<ReportInfoCollector>>();
         private readonly List<Func<ReportInfoCollector>> successes = new List<Func<ReportInfoCollector>>();
 
@@ -22,9 +22,21 @@ namespace Puppy.Monitoring
             return this;
         }
 
+        public MeasurementInfoCollector OnFailure(IEnumerable<Func<ReportInfoCollector>> failure)
+        {
+            this.failures.AddRange(failure);
+            return this;
+        }
+
         public MeasurementInfoCollector OnSuccess(Func<ReportInfoCollector> success)
         {
             this.successes.Add(success);
+            return this;
+        }
+
+        public MeasurementInfoCollector OnSuccess(IEnumerable<Func<ReportInfoCollector>> success)
+        {
+            this.successes.AddRange(success);
             return this;
         }
 

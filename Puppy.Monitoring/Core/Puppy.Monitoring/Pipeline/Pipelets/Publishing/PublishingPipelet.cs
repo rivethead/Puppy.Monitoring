@@ -11,13 +11,9 @@ namespace Puppy.Monitoring.Pipeline.Pipelets.Publishing
         private static readonly ILog log = LogManager.GetLogger<PublishingPipelet>();
         private readonly IPublishEvents publisher;
 
-        public PublishingPipelet(IPublishEvents publisher)
+        public PublishingPipelet(IPublishEvents publisher, IEventSpecification eventFilter) : base(eventFilter)
         {
             this.publisher = publisher;
-        }
-
-        public PublishingPipelet(IEventSpecification internalFilter) : base(internalFilter)
-        {
         }
 
         protected override bool FilterEvent(IEvent @event)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Puppy.Monitoring.Publishing;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Reporting.Success
@@ -14,7 +14,7 @@ namespace Puppy.Monitoring.Unit.Tests.Reporting.Success
         {
             SystemTime.Now = () => new DateTime(2013, 04, 20, 12, 13, 14);
 
-            Publisher.Use(new TestPipelineAdapter(publisher));
+            Publisher.Use(new TestPipelineAdapter(publisher), new PublishingContext("TEST_SYSTEM", "TEST"));
         }
 
         public override void Observe()

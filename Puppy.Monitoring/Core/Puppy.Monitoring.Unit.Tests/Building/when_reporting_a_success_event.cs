@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.Publishing;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Building
@@ -12,7 +12,7 @@ namespace Puppy.Monitoring.Unit.Tests.Building
 
         public when_reporting_a_success_event()
         {
-            Publisher.Use(new TestPipelineAdapter(listener));
+            Publisher.Use(new TestPipelineAdapter(listener), new PublishingContext("TEST_SYSTEM", "TEST"));
         }
 
         public override void Observe()

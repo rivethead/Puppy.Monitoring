@@ -3,7 +3,7 @@ using System.Linq;
 using Moq;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.Pipeline.Pipelets.Actions;
-using Puppy.Monitoring.TestHelper;
+using Puppy.Monitoring.Unit.Tests._helpers;
 using Xunit.Extensions;
 
 namespace Puppy.Monitoring.Unit.Tests.Pipelines.Pipelets.Actions
