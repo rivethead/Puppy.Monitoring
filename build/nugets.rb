@@ -9,23 +9,7 @@
 			['Puppy.Monitoring.pdb', 'lib\net45'],
 		],
 		:dependencies => [
-			['Common.Logging', '[2.1.1]']
-		]
-	},
-	{
-		:package_id => 'Puppy.Monitoring.SqlServerPublisher',
-		:description => 'Puppy.Monitoring.SqlServerPublisher',
-		:authors => 'rivethead_',
-		:base_folder => 'Puppy.Monitoring/Publishers/Puppy.Monitoring.SqlServerPublisher/',
-		:files => [
-			['Puppy.Monitoring.SqlServerPublisher.dll', 'lib\net45'],
-			['Puppy.Monitoring.SqlServerPublisher.pdb', 'lib\net45'],
-			['install_publisher.ps1', 'tools'],
-			['migrations/tools/**/*.*', 'tools']
-		],
-		:dependencies => [
-			['Common.Logging', '[2.1.1]'],
-			['Puppy.Monitoring', '']
+			['Common.Logging', '>=2.1.1']
 		]
 	},
 	{
@@ -42,52 +26,35 @@
 		]
 	},
 	{
-		:package_id => 'Puppy.Monitoring.Daemon',
-		:description => 'Puppy.Monitoring.Daemon',
+		:package_id => 'Puppy.Monitoring.DucksboardPublisher',
+		:description => 'Puppy.Monitoring.DucksboardPublisher',
 		:authors => 'rivethead_',
-		:base_folder => 'Puppy.Monitoring/Daemon/Puppy.Monitoring.Daemon/',
+		:base_folder => 'Puppy.Monitoring/Publishers/Puppy.Monitoring.DucksboardPublisher/',
 		:files => [
-			['Puppy.Monitoring.Daemon.exe', 'lib\net45'],
-			['*.config', 'lib\net45'],
-			['imps.xml', 'lib\net45'],
-			['*.boo', 'lib\net45']
+			['Puppy.Monitoring.DucksboardPublisher.dll', 'lib\net45'],
+			['Puppy.Monitoring.DucksboardPublisher.pdb', 'lib\net45']
 		],
 		:dependencies => [
+			['Common.Logging', '2.1.1'],
+			['Puppy.Monitoring', '']
+		]
+	},
+	{
+		:package_id => 'Puppy.Monitoring.SqlServerPublisher',
+		:description => 'Puppy.Monitoring.SqlServerPublisher',
+		:authors => 'rivethead_',
+		:base_folder => 'Puppy.Monitoring/Publishers/Puppy.Monitoring.SqlServerPublisher/',
+		:files => [
+			['Puppy.Monitoring.SqlServerPublisher.dll', 'lib\net45'],
+			['Puppy.Monitoring.SqlServerPublisher.pdb', 'lib\net45'],
+			['install_publisher.ps1', 'tools'],
+			['migrations/tools/**/*.*', 'tools']
+		],
+		:dependencies => [
+			['Common.Logging', '2.1.1'],
 			['Puppy.Monitoring', ''],
-			['Boo', '0.9.4'],
-			['Boo-Compiler', '0.9.4'],
-			['Common.Logging', '2.1.2'],
-			['Quartz', '2.1.2'],
-			['RhinoDSL', '1.0.0'],
-			['TopShelf', '3.1.0'],
+			['FluentMigrator', '1.0.6.0'],
+			['FluentMigrator.Tools', '1.0.6.0']
 		]
-	},
-	{
-		:package_id => 'Puppy.Monitoring.Imps',
-		:description => 'Puppy.Monitoring.Imps',
-		:authors => 'rivethead_',
-		:base_folder => 'Puppy.Monitoring/Daemon/Puppy.Monitoring.Imps/',
-		:files => [
-			['Puppy.Monitoring.Imps.dll', 'lib\net45'],
-			['Puppy.Monitoring.Imps.pdb', 'lib\net45']
-		],
-		:dependencies => [
-			['Common.Logging', '2.1.2'],
-			['Quartz', '2.1.2']
-		]
-	},
-	{
-		:package_id => 'Puppy.Monitoring.SqlServer.Imps',
-		:description => 'Puppy.Monitoring.SqlServer.Imps',
-		:authors => 'rivethead_',
-		:base_folder => 'Puppy.Monitoring/Daemon/Puppy.Monitoring.SqlServer.Imps/',
-		:files => [
-			['Puppy.Monitoring.SqlServer.Imps.dll', 'lib\net45'],
-			['Puppy.Monitoring.SqlServer.Imps.pdb', 'lib\net45']
-		],
-		:dependencies => [
-			['Common.Logging', '2.1.2'],
-			['Quartz', '2.1.2']
-		]
-	}	
+	}
 ]

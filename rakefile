@@ -5,9 +5,10 @@ require 'fileutils'
 require 'semver'
 require File.dirname(__FILE__) + "/build/versioning.rb"
 require File.dirname(__FILE__) + "/build/nugets.rb"
+require File.dirname(__FILE__) + "/build/solutions.rb"
 
 properties = {
-	:test_filter => "Puppy.Monitoring/**/bin/" + mode.to_s() + "/**/*.Tests.dll",
+	:test_filter => "**/bin/" + mode.to_s() + "/**/*.Tests.dll",
 	:nuget_folder => "build/nuget",
 	:nuget_executable => "build/tools/nuget/nuget.exe"
 }
@@ -41,9 +42,18 @@ end
 
 
 namespace :build do
-	msbuild :build => ['version:default'] do |msb|
-		msb.properties = { :configuration => mode }
-		msb.solution = "Puppy.Monitoring/Puppy.Monitoring.sln"
+
+	task :build do
+		puts "Found #{@solutions.length} solutions to build"
+
+		@solutions.each do |solution|
+			puts "Building #{solution[:name]} (#{solution[:solution]})"
+			msb = MSBuild.new
+			msb.properties = { :configuration => mode }
+			msb.solution = solution[:solution]
+			msb.execute
+		end
+
 	end
 
 end
@@ -73,7 +83,7 @@ namespace :nuget do
 			spec_file = File.join(Dir.pwd, properties[:nuget_folder], "#{nuget[:package_id]}.#{NUGET_VERSION}.nuspec")
 			output_directory = File.join(Dir.pwd, properties[:nuget_folder])
 			base_path = File.join(Dir.pwd, nuget[:base_folder], "bin", mode.to_s)
-			nuget_parameters = "pack #{spec_file} -OutputDirectory #{output_directory} -BasePath #{base_path} -Version #{NUGET_VERSION} -Properties Configuration=Release"
+			nuget_parameters = "pack #{spec_file} -OutputDirectory #{output_directory} -BasePath #{base_path} -Version #{NUGET_VERSION} -Properties Configuration=Release -Symbols"
 
 			cmd = Exec.new
 			cmd.command = properties[:nuget_executable]
@@ -115,10 +125,16 @@ end
 
 namespace :testing do
 	task :unit_tests do
-		Dir.glob(properties[:test_filter]).each do |test_assembly|
-			xunit = XUnitTestRunner.new
-			xunit.assembly = File.join(Dir.pwd, test_assembly)
-			xunit.execute
+		@solutions.each do |solution|
+			puts "Searching for tests for #{solution[:name]} (#{solution[:baseFolder]})"
+			filter = File.join(solution[:baseFolder], properties[:test_filter])
+
+			Dir.glob(filter).each do |test_assembly|
+				xunit = XUnitTestRunner.new
+				xunit.assembly = File.join(Dir.pwd, test_assembly)
+				xunit.execute
+			end
+
 		end
 	end
 end
@@ -126,6 +142,9 @@ end
 task :switch_to_release do
 	mode = :Release
 end
+
+desc "Getting started"
+task :start => ['environment:install_nuget_packages'] do end
 
 desc "Only builds"
 task :default => [
