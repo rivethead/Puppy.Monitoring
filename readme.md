@@ -165,3 +165,6 @@ You only need to do this once in your application (e.g. Global.asax.cs)
 The purpose of a pipeline adapter is to take an event from the `Publisher` and pass the event to the appropriate pipeline. The appropriate pipeline will then flow the event to each pipelet. 
 
 The `ManualPipelineAdapter` uses manual registration of pipelines. But pipelines can be resolved from an IoC container or any other source.
+
+
+This is a test

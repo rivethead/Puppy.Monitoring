@@ -38,6 +38,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.Daemon.Tests", "Daemon\Puppy.Monitoring.Daemon.Tests\Puppy.Monitoring.Daemon.Tests.csproj", "{9243F95A-C1D1-4BF7-A168-E016657F8AB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puppy.Monitoring.SqlServer.Imps.Tests", "Daemon\Puppy.Monitoring.SqlServer.Imps.Tests\Puppy.Monitoring.SqlServer.Imps.Tests.csproj", "{9E45E228-65EE-4E67-95FA-3BD9F1E58E7B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C931A4E6-6D6B-4D94-ADC1-3FD6BBB73DFB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

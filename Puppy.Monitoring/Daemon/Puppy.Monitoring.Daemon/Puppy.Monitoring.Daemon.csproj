@@ -11,6 +11,8 @@
     <AssemblyName>Puppy.Monitoring.Daemon</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,12 +44,14 @@
     <Reference Include="Boo.Lang.Parser">
       <HintPath>..\..\packages\Boo-Compiler.0.9.4\lib\Boo.Lang.Parser.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Common.Logging">
       <HintPath>..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Puppy.Monitoring">
+      <HintPath>..\..\packages\Puppy.Monitoring.0.1.86\lib\net45\Puppy.Monitoring.dll</HintPath>
+    </Reference>
     <Reference Include="Quartz">
-      <HintPath>..\..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
+      <HintPath>..\..\packages\Quartz.2.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.DSL">
       <HintPath>..\..\packages\RhinoDSL.1.0.0\lib\Rhino.DSL.dll</HintPath>
@@ -61,13 +65,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Topshelf">
-      <HintPath>..\..\packages\TopShelf.3.1.0\lib\net40-full\Topshelf.dll</HintPath>
+      <HintPath>..\..\packages\Topshelf.3.1.1\lib\net40-full\Topshelf.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="configuration.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -90,12 +97,6 @@
     <Content Include="imps.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Puppy.Monitoring\Puppy.Monitoring.csproj">
-      <Project>{61a85473-6de5-4bca-8508-d6395949a297}</Project>
-      <Name>Puppy.Monitoring</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
