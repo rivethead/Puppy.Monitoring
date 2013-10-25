@@ -130,14 +130,14 @@ end
 desc "Only builds"
 task :default => [
 	'environment:install_nuget_packages',
-	'build:build' 
+	'build:build'
 	] do
-end		
+end
 
-desc "Run debug build"	
+desc "Run debug build"
 task :debug => [:default, 'testing:unit_tests'] do end
 
-desc "Run release build" 	
+desc "Run release build"
 task :release => [:switch_to_release, :default, 'testing:unit_tests'] do end
 
 desc "Release build with nuget packaging"

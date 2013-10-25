@@ -9,7 +9,7 @@
 			['Puppy.Monitoring.pdb', 'lib\net45'],
 		],
 		:dependencies => [
-			['Common.Logging', '[2.1.1]']
+			['Common.Logging', '2.1.1']
 		]
 	},
 	{
@@ -24,7 +24,7 @@
 			['migrations/tools/**/*.*', 'tools']
 		],
 		:dependencies => [
-			['Common.Logging', '[2.1.1]'],
+			['Common.Logging', '2.1.1'],
 			['Puppy.Monitoring', '']
 		]
 	},
@@ -89,5 +89,5 @@
 			['Common.Logging', '2.1.2'],
 			['Quartz', '2.1.2']
 		]
-	}	
+	}
 ]

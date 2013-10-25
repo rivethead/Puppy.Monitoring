@@ -2,24 +2,26 @@
 using System.Data.SqlClient;
 using Common.Logging;
 using Puppy.Monitoring.Publishing;
-using Puppy.Monitoring.SqlServer.Imps.Dapper.NET;
 using Quartz;
 
 namespace Puppy.Monitoring.SqlServer.Imps
 {
     public class StoredEventRepublishJob : IJob
     {
-        private readonly IProviderStoredEvents eventProvider;
         private static readonly ILog log = LogManager.GetLogger<StoredEventRepublishJob>();
+        private readonly IProviderStoredEvents eventProvider;
+        private readonly IMarkPublishedEvents marker;
 
-        public StoredEventRepublishJob(IProviderStoredEvents eventProvider)
+        public StoredEventRepublishJob(IProviderStoredEvents eventProvider, IMarkPublishedEvents marker)
         {
             this.eventProvider = eventProvider;
+            this.marker = marker;
         }
 
         public StoredEventRepublishJob()
         {
-            this.eventProvider = new SqlServerDatabaseStoredEvents();
+            eventProvider = new SqlServerDatabaseStoredEvents();
+            marker = new PublishedEventMarker(new SqlConnection(ConfigurationManager.ConnectionStrings["puppy.sqlserver"].ConnectionString));
         }
 
         public void Execute(IJobExecutionContext context)
@@ -30,18 +32,11 @@ namespace Puppy.Monitoring.SqlServer.Imps
 
             var publisher = new Publisher();
 
-            using(var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["puppy.sqlserver"].ConnectionString))
+            foreach (var @event in events)
             {
-                connection.Open();
-
-                foreach (var @event in events)
-                {
-                    publisher.Publish(@event);
-                    connection.Execute("UPDATE reportingEvent SET Republished = 1 WHERE Id = @id", new { id = @event.Id });
-                }
+                publisher.Publish(@event);
+                marker.Mark(@event);
             }
         }
-
-
     }
 }

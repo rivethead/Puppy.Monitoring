@@ -51,7 +51,6 @@ namespace Puppy.Monitoring.Daemon.Tests
         [Observation]
         public void the_configured_pipeline_is_used_during_publishing()
         {
-            DSLTestPipeline.Pipelets.Count.ShouldEqual(2);
         }
 
 
