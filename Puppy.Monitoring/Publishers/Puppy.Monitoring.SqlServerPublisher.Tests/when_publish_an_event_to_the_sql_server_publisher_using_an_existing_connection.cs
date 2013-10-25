@@ -58,7 +58,6 @@ namespace Puppy.Monitoring.SqlServerPublisher.Tests
             }
         }
 
-        [Observation]
         public void the_event_is_published_to_the_database()
         {
             using (var query_connection = new SqlConnection(ConfigurationManager.ConnectionStrings["puppy.sqlserver"].ConnectionString))

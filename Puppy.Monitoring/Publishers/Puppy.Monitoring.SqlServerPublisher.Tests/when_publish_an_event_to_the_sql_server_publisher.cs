@@ -41,7 +41,6 @@ namespace Puppy.Monitoring.SqlServerPublisher.Tests
             publisher.Publish(@event);
         }
 
-        [Observation]
         public void the_event_is_published_to_the_database()
         {
             using (
