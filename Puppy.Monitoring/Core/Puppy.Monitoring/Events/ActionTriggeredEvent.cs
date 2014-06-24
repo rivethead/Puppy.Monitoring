@@ -6,6 +6,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class ActionTriggeredEvent : Event, IAdminEvent
     {
+        public ActionTriggeredEvent()
+        {
+        }
+
         public ActionTriggeredEvent(Categorisation categorisation, Guid correlationId) : base(categorisation, correlationId)
         {
         }

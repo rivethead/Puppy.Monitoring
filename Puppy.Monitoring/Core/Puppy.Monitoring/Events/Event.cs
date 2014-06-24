@@ -6,6 +6,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public abstract class Event : IEvent
     {
+        protected Event()
+        {
+        }
+
         protected Event(Categorisation categorisation, Guid correlationId)
             : this(SystemTime.Now(), categorisation, null, correlationId)
         {

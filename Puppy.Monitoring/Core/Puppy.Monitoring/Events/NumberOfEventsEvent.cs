@@ -6,6 +6,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class NumberOfEventsEvent : Event, IAdminEvent
     {
+        public NumberOfEventsEvent()
+        {
+        }
+
         public NumberOfEventsEvent(PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id) : base(context, eventAudit, categorisation, correlationId, timings, id)
         {
         }

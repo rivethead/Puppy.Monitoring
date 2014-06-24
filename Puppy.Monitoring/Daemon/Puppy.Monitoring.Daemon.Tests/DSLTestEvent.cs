@@ -6,6 +6,7 @@ namespace Puppy.Monitoring.Daemon.Tests
 {
     public class DSLTestEvent : Event
     {
+
         public DSLTestEvent(Categorisation categorisation, Guid correlationId) : base(categorisation, correlationId)
         {
         }

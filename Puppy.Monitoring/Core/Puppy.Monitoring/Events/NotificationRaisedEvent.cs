@@ -5,6 +5,10 @@ namespace Puppy.Monitoring.Events
 {
     public class NotificationRaisedEvent : Event, IAdminEvent
     {
+        public NotificationRaisedEvent()
+        {
+        }
+
         public NotificationRaisedEvent(PublishingContext context, EventTiming eventAudit, Categorisation categorisation, Guid correlationId, Timings timings, Guid id) : base(context, eventAudit, categorisation, correlationId, timings, id)
         {
         }
