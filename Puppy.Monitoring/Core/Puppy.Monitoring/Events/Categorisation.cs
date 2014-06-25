@@ -5,6 +5,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class Categorisation
     {
+        public Categorisation()
+        {
+        }
+
         public Categorisation(string category) : this(category, "<unknown>")
         {
         }

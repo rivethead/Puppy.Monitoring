@@ -18,6 +18,7 @@ namespace Puppy.Monitoring.Builders
             @event.Categorisation = new Categorisation(info.Category, info.SubCategory, info.Segment);
             @event.CorrelationId = info.CorrelationId;
             @event.Timings = new Timings(info.Milliseconds);
+            @event.Description = new EventDescription(info.Parameters, info.Description);
 
             return @event;
         }

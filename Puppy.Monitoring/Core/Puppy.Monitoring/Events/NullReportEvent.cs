@@ -29,5 +29,6 @@ namespace Puppy.Monitoring.Events
         }
 
         public Guid CorrelationId { get; private set; }
+        public EventDescription Description { get; private set; }
     }
 }

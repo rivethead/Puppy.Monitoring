@@ -12,5 +12,6 @@ namespace Puppy.Monitoring.Events
         PublishingContext Context { get; }
         void AttachContext(PublishingContext context);
         Guid CorrelationId { get; }
+        EventDescription Description { get; }
     }
 }

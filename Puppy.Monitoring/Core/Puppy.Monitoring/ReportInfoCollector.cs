@@ -26,6 +26,8 @@ namespace Puppy.Monitoring
         internal long Milliseconds { get; set; }
         internal IBuildReportingEvent eventBuilder;
         internal Guid CorrelationId = Guid.Empty;
+        internal string Parameters = string.Empty;
+        internal string Description = string.Empty;
 
         public ReportInfoCollector(Report report, IEvent @event)
         {
@@ -69,6 +71,13 @@ namespace Puppy.Monitoring
         public ReportInfoCollector RelateTo(Guid correlationId)
         {
             this.CorrelationId = correlationId;
+            return this;
+        }
+
+        public ReportInfoCollector WithDescription(string parameters, string description)
+        {
+            Parameters = parameters;
+            Description = description;
             return this;
         }
 

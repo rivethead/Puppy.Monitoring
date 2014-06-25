@@ -5,6 +5,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class TimeBuckets
     {
+        public TimeBuckets()
+        {
+        }
+
         public TimeBuckets(DateTime dateTime)
         {
             Year = dateTime.Year;

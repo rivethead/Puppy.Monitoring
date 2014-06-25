@@ -63,12 +63,14 @@
     <Compile Include="Events\ActionTriggeredEvent.cs" />
     <Compile Include="Events\Categorisation.cs" />
     <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventDescription.cs" />
     <Compile Include="Events\EventTiming.cs" />
     <Compile Include="Events\ExternalServiceCalledFailureEvent.cs" />
     <Compile Include="Events\ExternalServiceCallSuccessEvent.cs" />
     <Compile Include="Events\FailureEvent.cs" />
     <Compile Include="Events\IAdminEvent.cs" />
     <Compile Include="Events\IEvent.cs" />
+    <Compile Include="Events\NoDataReturnedExternalServiceCallEvent.cs" />
     <Compile Include="Events\NoopEvent.cs" />
     <Compile Include="Events\NotificationRaisedEvent.cs" />
     <Compile Include="Events\NullReportEvent.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using Microsoft.SqlServer.Server;
 using Puppy.Monitoring.Events;
 using Puppy.Monitoring.Publishing;
 using Puppy.Monitoring.SqlServerPublisher.Dapper.NET;
@@ -22,13 +23,15 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             id, 
                                 PublishedOn, Year, Month, Day, Hour, Minute, Second, Timestamp, 
                                 Category, SubCategory, Segment,
-                                TookMilliseconds, EventType, System, Module, MachineName, CorrelationId, FullEventType, EventAssembly, Republished
+                                TookMilliseconds, EventType, System, Module, MachineName, CorrelationId, FullEventType, EventAssembly, Republished,
+                                [Parameters], [Description]
                         )
                         VALUES(
                             @id, 
                                 @publishedOn, @year, @month, @day, @hour, @minute, @second, @timestamp,
                                 @category, @subCategory, @segment,
-                                @milliseconds, @eventType, @system, @module, @machineName, @correlationId, @fullEventType, @eventAssembly, @republished
+                                @milliseconds, @eventType, @system, @module, @machineName, @correlationId, @fullEventType, @eventAssembly, @republished,
+                                @parameters, @description
                 )";
 
             var parameters = new[]
@@ -55,7 +58,9 @@ namespace Puppy.Monitoring.SqlServerPublisher
                             module = @event.Context.Module,
                             machineName = @event.Context.MachineName,
                             correlationId = @event.CorrelationId,
-                            republished = false
+                            republished = false,
+                            parameters = @event.Description != null ? @event.Description.Parameters : string.Empty,
+                            description = @event.Description != null ? @event.Description.Description : string.Empty
                         }
                 };
             connection.Execute(sql, parameters);

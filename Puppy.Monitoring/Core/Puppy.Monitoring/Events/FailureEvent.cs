@@ -32,6 +32,11 @@ namespace Puppy.Monitoring.Events
         {
         }
 
+        public FailureEvent(Categorisation categorisation, Guid correlationId, EventDescription description)
+            : base(categorisation, new Timings(int.MinValue), correlationId, description)
+        {
+        }
+
         public override string ToString()
         {
             return string.Format("{0}{3}{1}{3}{2}",

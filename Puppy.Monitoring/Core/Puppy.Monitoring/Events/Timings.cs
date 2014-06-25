@@ -5,6 +5,10 @@ namespace Puppy.Monitoring.Events
     [Serializable]
     public class Timings
     {
+        public Timings()
+        {
+        }
+
         public Timings(long took)
         {
             Took = took;

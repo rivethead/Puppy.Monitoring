@@ -28,8 +28,8 @@ namespace Puppy.Monitoring.Events
         {
         }
 
-        public SuccessEvent(Categorisation categorisation, Guid correlationId)
-            : base(categorisation, new Timings(int.MinValue), correlationId)
+        public SuccessEvent(Categorisation categorisation, Guid correlationId, EventDescription description)
+            : base(categorisation, new Timings(int.MinValue), correlationId, description)
         {
         }
 

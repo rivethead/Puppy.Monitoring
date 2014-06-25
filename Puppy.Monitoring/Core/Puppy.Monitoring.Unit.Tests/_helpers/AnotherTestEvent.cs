@@ -7,7 +7,6 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
     [Serializable]
     public class AnotherTestEvent : IEvent
     {
-        public string Description { get; set; }
         public Guid Id { get; private set; }
         public EventTiming EventAudit { get; private set; }
         public Categorisation Categorisation { get; private set; }
@@ -19,5 +18,6 @@ namespace Puppy.Monitoring.Unit.Tests._helpers
         }
 
         public Guid CorrelationId { get; private set; }
+        public EventDescription Description { get; private set; }
     }
 }

@@ -16,7 +16,7 @@ namespace Puppy.Monitoring.Builders
         public IEvent Build()
         {
             return subBuilder == null
-                       ? new FailureEvent(new Categorisation(info.Category, info.SubCategory, info.Segment), info.CorrelationId)
+                       ? new FailureEvent(new Categorisation(info.Category, info.SubCategory, info.Segment), info.CorrelationId, new EventDescription(info.Parameters, info.Description))
                        : subBuilder.Build();
         }
     }

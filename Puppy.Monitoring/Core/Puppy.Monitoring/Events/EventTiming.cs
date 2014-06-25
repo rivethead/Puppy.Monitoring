@@ -8,6 +8,10 @@ namespace Puppy.Monitoring.Events
         public DateTime PublishedOn { get; private set; }
         public TimeBuckets Buckets { get; private set; }
 
+        public EventTiming()
+        {
+        }
+
         public EventTiming(DateTime publishedOn)
         {
             PublishedOn = publishedOn;
